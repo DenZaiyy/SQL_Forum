@@ -4,10 +4,15 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: #B9C0E6;
   color: #fff;
-  height: 100%;
+  min-height: 100%;
+  position: relative;
 }
 body a {
   color: #fff;
@@ -19,6 +24,9 @@ body a {
 }
 
 header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 80px;
   padding: 15px;
   background-color: #251F44;
@@ -30,6 +38,62 @@ header nav .logo {
 header nav .logo p {
   margin-left: 10px;
 }
+header nav .searchBar {
+  position: relative;
+}
+header nav .searchBar i {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: x-large;
+  cursor: pointer;
+}
+header nav .searchBar input[type=search] {
+  width: 600px;
+  height: 50px;
+  border-radius: 50px;
+  border: 1px solid #818181;
+  background-color: #4E558B;
+  color: #fff;
+  padding: 15px;
+  padding-left: 50px;
+}
+header nav .searchBar input[type=search]:focus {
+  outline: none;
+}
+header nav .profil {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.content-flex {
+  display: flex;
+}
+.content-flex aside {
+  padding: 20px;
+  min-width: 250px;
+  height: 100%;
+  background-color: #4E558B;
+}
+.content-flex aside .flux {
+  margin-bottom: 30px;
+}
+.content-flex aside .flux h3 {
+  margin-bottom: 20px;
+}
+.content-flex aside .themes h3 {
+  margin-bottom: 20px;
+}
+.content-flex aside .themes .cat .item {
+  display: flex;
+  justify-content: space-between;
+}
+.content-flex aside .themes .cat .item i {
+  font-size: large;
+}
+.content-flex main {
+  padding: 50px;
+}
 
 footer {
   display: flex;
@@ -37,6 +101,10 @@ footer {
   justify-content: space-around;
   height: 100px;
   background-color: #251F44;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   flex: 1;
 }
 footer .socials a i {

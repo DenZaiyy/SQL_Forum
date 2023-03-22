@@ -19,9 +19,18 @@
     <div class="container">
         <header>
             <nav>
-                <div class="logo">
-                    <img src="public/img/logo-free-forums.png" alt="logo of forum" width="50" height="50">
-                    <p>FORUM</p>
+                <a href="index.php">
+                    <div class="logo">
+                        <img src="public/img/logo-free-forums.png" alt="logo of forum" width="50" height="50">
+                        <p>FORUM</p>
+                    </div>
+                </a>
+                <div class="searchBar">
+                    <input type="search" name="searchBar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="profil">
+                    <img src="" alt="" height="50" width="50">
                 </div>
             </nav>
             <!-- <nav>
@@ -57,27 +66,52 @@
                     </div>
                 </nav> -->
         </header>
-        <main id="forum">
-            <?= $page ?>
-        </main>
-    </div>
-    <footer>
-        <?php $date = date('Y'); ?>
-        <p><a href="">Legal notice</a> - <a href="/home/forumRules.html">Forum rules</a></p>
-        <small>&copy; <?= $date ?> - Created by <strong><a href="https://www.elan-formation.eu/" target="_blank">Elan Formation</a></strong></small>
-        <div class="socials">
-            <a href="" target="_blank">
-                <i class="fa-brands fa-square-facebook"></i>
-            </a>
-            <a href="" target="_blank">
-                <i class="fa-brands fa-square-twitter"></i>
-            </a>
-            <a href="" target="_blank">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
+        <div class="content-flex">
+            <aside>
+                <div class="flux">
+                    <h3>Flux</h3>
+                    <a href="">
+                        <i class="fa-solid fa-bolt"></i> Populate
+                    </a>
+                </div>
+                <div class="themes">
+                    <h3>Themes</h3>
+                    <div class="cat">
+                        <div class="item">
+                            <a href="">
+                                <i class="fa-solid fa-gamepad"></i> Gaming
+                            </a>
+                            <a href="">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <main id="forum">
+                <?= $page ?>
+            </main>
         </div>
-        <!-- <button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois -->
-    </footer>
+
+
+        <footer>
+            <?php $date = date('Y'); ?>
+            <p><a href="">Legal notice</a> - <a href="/home/forumRules.html">Forum rules</a></p>
+            <small>&copy; <?= $date ?> - Created by <strong><a href="https://www.elan-formation.eu/" target="_blank">Elan Formation</a></strong></small>
+            <div class="socials">
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-square-facebook"></i>
+                </a>
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-square-twitter"></i>
+                </a>
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+            <!-- <button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois -->
+        </footer>
+    </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
     <script>
