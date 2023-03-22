@@ -65,6 +65,46 @@ header nav .profil {
   border-radius: 50%;
   overflow: hidden;
 }
+header nav .profil .dropdown-user-menu {
+  display: none;
+  position: absolute;
+  width: 200px;
+  right: 0;
+  background-color: #4E558B;
+  color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+header nav .profil .dropdown-user-menu .user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  justify-content: space-around;
+}
+header nav .profil .dropdown-user-menu .user-info img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+header nav .profil .dropdown-user-menu .links {
+  display: flex;
+  flex-direction: column;
+}
+header nav .profil .dropdown-user-menu .links a {
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+header nav .profil .dropdown-user-menu .btn-disconnect {
+  border-radius: 50px;
+  background-color: #251F44;
+  text-align: center;
+  margin-top: 40px;
+  padding: 10px 30px;
+}
+header nav .profil:hover .dropdown-user-menu {
+  display: block;
+}
 
 .content-flex {
   display: flex;

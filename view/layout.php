@@ -31,6 +31,21 @@
                 </div>
                 <div class="profil">
                     <img src="" alt="" height="50" width="50">
+                    <div class="dropdown-user-menu">
+                        <a href="">
+                            <div class="user-info">
+                                <img src="" alt="" height="50" width="50">
+                                <strong>test</strong>
+                            </div>
+                        </a>
+                        <div class="links">
+                            <a href="">Profile</a>
+                            <a href="">Settings</a>
+                        </div>
+                        <div class="btn-disconnect">
+                            <a href="">Disconnect</a>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <!-- <nav>
