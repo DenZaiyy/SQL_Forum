@@ -15,11 +15,13 @@ class ForumController extends AbstractController implements ControllerInterface
     {
 
         $topicManager = new TopicManager();
+        $postManager = new PostManager();
 
         return [
             "view" => VIEW_DIR . "forum/listTopics.php",
             "data" => [
-                "topics" => $topicManager->findAll(["date_topic", "DESC"])
+                "topics" => $topicManager->findAll(["date_topic", "DESC"]),
+                "messages" => $postManager->findAll(["date_msg"], "DESC")
             ]
         ];
     }
