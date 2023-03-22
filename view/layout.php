@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="<?= PUBLIC_DIR ?>/css/style.css">
+    <link rel="shortcut icon" href="public/img/logo.png" type="image/x-icon">
     <title><?= $title ?></title>
 </head>
 
@@ -21,7 +22,7 @@
             <nav>
                 <a href="index.php">
                     <div class="logo">
-                        <img src="public/img/logo-free-forums.png" alt="logo of forum" width="50" height="50">
+                        <img src="public/img/logo.png" alt="logo of forum" width="50" height="50">
                         <p>FORUM</p>
                     </div>
                 </a>
@@ -30,11 +31,11 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
                 <div class="profil">
-                    <img src="" alt="" height="50" width="50">
+                    <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
                     <div class="dropdown-user-menu">
                         <a href="">
                             <div class="user-info">
-                                <img src="" alt="" height="50" width="50">
+                                <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
                                 <strong>test</strong>
                             </div>
                         </a>
@@ -83,14 +84,8 @@
         </header>
         <div class="content-flex">
             <aside>
-                <div class="flux">
-                    <h3>Flux</h3>
-                    <a href="">
-                        <i class="fa-solid fa-bolt"></i> Populate
-                    </a>
-                </div>
                 <div class="themes">
-                    <h3>Themes</h3>
+                    <h3>Category</h3>
                     <div class="cat">
                         <div class="item">
                             <a href="">
@@ -112,17 +107,23 @@
         <footer>
             <?php $date = date('Y'); ?>
             <p><a href="">Legal notice</a> - <a href="/home/forumRules.html">Forum rules</a></p>
-            <small>&copy; <?= $date ?> - Created by <strong><a href="https://www.elan-formation.eu/" target="_blank">Elan Formation</a></strong></small>
+            <p>&copy; <?= $date ?> - Created by <strong><a href="https://www.elan-formation.eu/" target="_blank">Elan Formation</a></strong></p>
             <div class="socials">
-                <a href="" target="_blank">
-                    <i class="fa-brands fa-square-facebook"></i>
-                </a>
-                <a href="" target="_blank">
-                    <i class="fa-brands fa-square-twitter"></i>
-                </a>
-                <a href="" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
+                <div class="fb">
+                    <a href="" target="_blank">
+                        <i class="fa-brands fa-square-facebook"></i>
+                    </a>
+                </div>
+                <div class="twitter">
+                    <a href="" target="_blank">
+                        <i class="fa-brands fa-square-twitter"></i>
+                    </a>
+                </div>
+                <div class="insta">
+                    <a href="" target="_blank">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
             </div>
             <!-- <button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois -->
         </footer>
