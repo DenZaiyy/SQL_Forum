@@ -85,13 +85,15 @@ header nav .profil {
           user-select: none;
 }
 header nav .profil .dropdown-user-menu {
-  display: none;
+  visibility: hidden;
   position: absolute;
+  opacity: 0;
   width: 200px;
   right: 0;
   background-color: #4E558B;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 15px;
+  transition: var(--trans-linear-02s);
 }
 header nav .profil .dropdown-user-menu .user-info {
   display: flex;
@@ -120,8 +122,10 @@ header nav .profil .dropdown-user-menu .btn-disconnect {
   margin-top: 40px;
   padding: 10px 30px;
 }
-header nav .profil:hover .dropdown-user-menu {
-  display: block;
+header nav .profil .active {
+  visibility: visible;
+  opacity: 1;
+  transition: var(--trans-linear-02s);
 }
 
 .content-flex {
@@ -140,6 +144,7 @@ header nav .profil:hover .dropdown-user-menu {
 .content-flex aside .themes .cat .item {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .content-flex aside .themes .cat .item i {
   font-size: large;
@@ -156,7 +161,7 @@ header nav .profil:hover .dropdown-user-menu {
   padding: 15px;
   border-radius: 10px;
   width: 80%;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .content-flex main .card-topic .infos {
   margin-bottom: 15px;

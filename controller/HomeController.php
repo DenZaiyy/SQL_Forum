@@ -7,7 +7,7 @@ use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\UserManager;
 use Model\Managers\TopicManager;
-use Model\Managers\PostManager;
+use Model\Managers\CategoryManager;
 
 class HomeController extends AbstractController implements ControllerInterface
 {
@@ -16,20 +16,38 @@ class HomeController extends AbstractController implements ControllerInterface
     {
 
         $topicManager = new TopicManager();
-        $postManager = new PostManager();
-        $userManager = new UserManager();
 
         return [
             "view" => VIEW_DIR . "home.php",
             "data" => [
-                "topics" => $topicManager->findAll(["date_topic", "DESC"]),
-                "messages" => $postManager->findAll(),
-                "users" => $userManager->findAll()
+                "topics" => $topicManager->findLastFiveTopics(["date", "DESC"])
             ]
         ];
     }
 
+    public function listCategories()
+    {
+        $categoryManager = new CategoryManager();
 
+        return [
+            "view" => VIEW_DIR . "layout.php",
+            "data" => [
+                "categories" => $categoryManager->findAll()
+            ]
+        ];
+    }
+
+    public function detailCategory($id)
+    {
+        $topicManager = new TopicManager();
+
+        return [
+            "view" => VIEW_DIR . "forum/detailCategory.php",
+            "data" => [
+                "topics" => $topicManager->findOneById($id)
+            ]
+        ];
+    }
 
     public function users()
     {

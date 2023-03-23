@@ -16,4 +16,20 @@ class TopicManager extends Manager
     {
         parent::connect();
     }
+
+    public function findLastFiveTopics($order = null)
+    {
+        $orderQuery = ($order) ?
+            "ORDER BY " . $order[0] . " " . $order[1] :
+            "";
+
+        $sql = "SELECT * FROM topic t " .
+            $orderQuery .
+            " LIMIT 5";
+
+        return $this->getMultipleResults(
+            DAO::select($sql),
+            $this->className
+        );
+    }
 }

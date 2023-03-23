@@ -30,9 +30,9 @@
                     <input type="search" name="searchBar">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-                <div class="profil">
-                    <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
-                    <div class="dropdown-user-menu">
+                <div class="profil" id="profil">
+                    <img src="public/img/default-user.png" alt="image of user" id="user" height="50" width="50">
+                    <div class="dropdown-user-menu" id="dropdown">
                         <a href="">
                             <div class="user-info">
                                 <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
@@ -42,6 +42,8 @@
                         <div class="links">
                             <a href="">Profile</a>
                             <a href="">Settings</a>
+                            <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
+                            <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
                         </div>
                         <div class="btn-disconnect">
                             <a href="">Disconnect</a>
@@ -87,14 +89,17 @@
                 <div class="themes">
                     <h3>Category</h3>
                     <div class="cat">
-                        <div class="item">
-                            <a href="">
-                                <i class="fa-solid fa-gamepad"></i> Gaming
-                            </a>
-                            <a href="">
-                                <i class="fa-solid fa-plus"></i>
-                            </a>
-                        </div>
+                        <?php foreach ($categories as $category) { ?>
+                            <div class="item">
+                                <a href="index.php?ctrl=home&action=detailCategory&id=<?= $category->getId() ?>">
+                                    <!-- <i class="fa-solid fa-gamepad"></i> Gaming -->
+                                    <?= $category->getLabel(); ?>
+                                </a>
+                                <a href="">
+                                    <i class="fa-solid fa-plus"></i>
+                                </a>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </aside>
@@ -156,6 +161,10 @@
             //         'removeformat | help',
             //     content_css: '//www.tiny.cloud/css/codepen.min.css'
             // });
+
+            $("#profil").on('click', function() {
+                $('#dropdown').toggleClass("active");
+            })
         })
 
 

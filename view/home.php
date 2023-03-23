@@ -1,8 +1,10 @@
 <?php
 $topics = $result["data"]['topics'];
-$users = $result["data"]["users"];
-$messages = $result["data"]["messages"];
+// $messages = $result["data"]["messages"];
+?>
 
+<h1>The most 5 recents posts</h1>
+<?php
 foreach ($topics as $topic) {
 ?>
     <div class="card-topic">
@@ -10,7 +12,7 @@ foreach ($topics as $topic) {
             <h4>posted by :</h4>
         </div>
         <div class="preview">
-            <p>tst</p>
+            <p><?= $topic->getTitle() ?></p>
         </div>
         <div class="btns">
             <div class="comments">
