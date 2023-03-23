@@ -19,6 +19,7 @@ Autoloader::register();
 session_start();
 //et on intègre la classe Session qui prend la main sur les messages en session
 use App\Session as Session;
+use Model\Managers\CategoryManager;
 
 //---------REQUETE HTTP INTERCEPTEE-----------
 $ctrlname = DEFAULT_CTRL; //on prend le controller par défaut
@@ -47,6 +48,8 @@ if (isset($_GET['id'])) {
 //ex : HomeController->users(null)
 $result = $ctrl->$action($id);
 
+$categoryManager = new CategoryManager();
+$categories = $categoryManager->findAll();
 /*--------CHARGEMENT PAGE--------*/
 
 if ($action == "ajax") { //si l'action était ajax
