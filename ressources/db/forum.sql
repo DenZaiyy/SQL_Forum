@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mer. 22 mars 2023 à 15:25
+-- Généré le : jeu. 23 mars 2023 à 17:49
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.15
 
@@ -28,17 +28,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `category` (
-  `id_ctg` int NOT NULL,
-  `label_ctg` varchar(100) NOT NULL
+  `id_category` int NOT NULL,
+  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `category`
 --
 
-INSERT INTO `category` (`id_ctg`, `label_ctg`) VALUES
+INSERT INTO `category` (`id_category`, `label`) VALUES
 (1, 'Gaming'),
-(2, 'Development');
+(2, 'Development'),
+(3, 'HTML'),
+(4, 'CSS'),
+(5, 'PHP');
 
 -- --------------------------------------------------------
 
@@ -47,12 +50,19 @@ INSERT INTO `category` (`id_ctg`, `label_ctg`) VALUES
 --
 
 CREATE TABLE `message` (
-  `id_msg` int NOT NULL,
-  `text_msg` text NOT NULL,
-  `date_msg` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_message` int NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_topic` int NOT NULL,
-  `id_user` int NOT NULL
+  `id_user` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `message`
+--
+
+INSERT INTO `message` (`id_message`, `text`, `date`, `id_topic`, `id_user`) VALUES
+(1, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, sunt possimus sed molestias modi nam. Rem vero, in cumque dignissimos quis, laboriosam nulla assumenda error ipsa quam repellat eius eligendi?\r\n            Repudiandae, explicabo. Laudantium, reprehenderit similique quis, reiciendis doloremque possimus et aliquam inventore ducimus temporibus perferendis obcaecati at. Rerum ducimus vitae laborum modi pariatur at provident dicta, accusantium reiciendis error repellat!\r\n            Facilis id doloremque minus at commodi voluptatibus repellat ipsa ab possimus debitis ipsam dolore, eum maxime ea quisquam aliquid veniam harum nihil amet explicabo perspiciatis nemo quia? Dolorum, exercitationem minima?', '2023-03-22 19:38:11', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -62,19 +72,24 @@ CREATE TABLE `message` (
 
 CREATE TABLE `topic` (
   `id_topic` int NOT NULL,
-  `title_topic` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `id_user` int DEFAULT NULL,
-  `date_topic` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL,
-  `id_ctg` int NOT NULL
+  `id_category` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `topic`
 --
 
-INSERT INTO `topic` (`id_topic`, `title_topic`, `id_user`, `date_topic`, `status`, `id_ctg`) VALUES
-(1, 'Ceci est un topic de test', NULL, '2023-03-22 14:39:01', 1, 2);
+INSERT INTO `topic` (`id_topic`, `title`, `id_user`, `date`, `status`, `id_category`) VALUES
+(1, 'Ceci est un topic de test 1', NULL, '2023-03-22 14:39:01', 0, 2),
+(2, 'Ceci est un topic de test 2', NULL, '2023-03-23 08:36:33', 0, 1),
+(3, 'Ceci est un topic de test 3', NULL, '2023-03-23 10:02:35', 0, 2),
+(4, 'Ceci est un topic de test 4', NULL, '2023-03-23 10:02:43', 0, 1),
+(5, 'Ceci est un topic de test 5', NULL, '2023-03-23 10:02:51', 0, 1),
+(6, 'Ceci est un topic de test 6', NULL, '2023-03-23 10:02:58', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -88,9 +103,16 @@ CREATE TABLE `user` (
   `mail_adress` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `avatar` varchar(255) NOT NULL,
-  `role` json NOT NULL
+  `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `role` json DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id_user`, `pseudo`, `mail_adress`, `password`, `createdAt`, `avatar`, `role`) VALUES
+(1, 'denZ', 'denz@example.com', 'test123', '2023-03-22 19:57:22', NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -100,13 +122,13 @@ CREATE TABLE `user` (
 -- Index pour la table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id_ctg`);
+  ADD PRIMARY KEY (`id_category`);
 
 --
 -- Index pour la table `message`
 --
 ALTER TABLE `message`
-  ADD PRIMARY KEY (`id_msg`),
+  ADD PRIMARY KEY (`id_message`),
   ADD KEY `Message_Topic_FK` (`id_topic`),
   ADD KEY `Message_User0_FK` (`id_user`);
 
@@ -116,7 +138,7 @@ ALTER TABLE `message`
 ALTER TABLE `topic`
   ADD PRIMARY KEY (`id_topic`),
   ADD KEY `Topic_User_FK` (`id_user`),
-  ADD KEY `Topic_Category0_FK` (`id_ctg`);
+  ADD KEY `Topic_Category0_FK` (`id_category`);
 
 --
 -- Index pour la table `user`
@@ -132,25 +154,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_ctg` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_category` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id_msg` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_message` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id_topic` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_topic` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -167,7 +189,7 @@ ALTER TABLE `message`
 -- Contraintes pour la table `topic`
 --
 ALTER TABLE `topic`
-  ADD CONSTRAINT `Topic_Category0_FK` FOREIGN KEY (`id_ctg`) REFERENCES `category` (`id_ctg`),
+  ADD CONSTRAINT `Topic_Category0_FK` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`),
   ADD CONSTRAINT `Topic_User_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 COMMIT;
 
