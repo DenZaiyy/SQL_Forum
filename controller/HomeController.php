@@ -25,30 +25,6 @@ class HomeController extends AbstractController implements ControllerInterface
         ];
     }
 
-    public function listCategories()
-    {
-        $categoryManager = new CategoryManager();
-
-        return [
-            "view" => VIEW_DIR . "layout.php",
-            "data" => [
-                "categories" => $categoryManager->findAll()
-            ]
-        ];
-    }
-
-    public function detailCategory($id)
-    {
-        $topicManager = new TopicManager();
-
-        return [
-            "view" => VIEW_DIR . "forum/detailCategory.php",
-            "data" => [
-                "topics" => $topicManager->findOneById($id)
-            ]
-        ];
-    }
-
     public function users()
     {
         $this->restrictTo("ROLE_USER");

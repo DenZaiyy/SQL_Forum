@@ -8,31 +8,63 @@ use App\ControllerInterface;
 use Model\Managers\CategoryManager;
 use Model\Managers\TopicManager;
 use Model\Managers\PostManager;
+use Model\Managers\UserManager;
 
 class ForumController extends AbstractController implements ControllerInterface
 {
 
-    public function index()
-    {
+    // public function index()
+    // {
 
+    //     $topicManager = new TopicManager();
+
+    //     return [
+    //         "view" => VIEW_DIR . "topic/listTopics.php",
+    //         "data" => [
+    //             "topics" => $topicManager->findAll(["date", "DESC"])
+    //         ]
+    //     ];
+    // }
+
+    public function listTopics()
+    {
         $topicManager = new TopicManager();
 
         return [
-            "view" => VIEW_DIR . "forum/listTopics.php",
+            "view" => VIEW_DIR . "topic/listTopics.php",
             "data" => [
-                "topics" => $topicManager->findAll(["date", "DESC"])
+                "topics" => $topicManager->findAll()
+            ]
+        ];
+    }
+
+    public function detailTopic($id)
+    {
+        $topicManager = new TopicManager();
+
+        return [
+            "view" => VIEW_DIR . "topic/detailTopic.php",
+            "data" => [
+                "topics" => $topicManager->findOneById($id)
             ]
         ];
     }
 
     public function listCategories()
     {
-        $categoryManager = new CategoryManager();
+        return [
+            "view" => VIEW_DIR . "category/listCategories.php"
+        ];
+    }
+
+    public function detailCategory($id)
+    {
+        $topicManager = new TopicManager();
 
         return [
-            "view" => VIEW_DIR . "forum/listCategories.php",
+            "view" => VIEW_DIR . "category/detailCategory.php",
             "data" => [
-                "categories" => $categoryManager->findAll()
+                "topics" => $topicManager->findAllTopicsInCategory($id)
             ]
         ];
     }

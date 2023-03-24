@@ -32,4 +32,16 @@ class TopicManager extends Manager
             $this->className
         );
     }
+
+    public function findAllTopicsInCategory($id)
+    {
+        $sql = "SELECT *
+                FROM " . $this->tableName . " t
+                WHERE t.category_id = :id";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
 }

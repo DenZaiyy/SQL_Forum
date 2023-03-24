@@ -16,4 +16,21 @@ class PostManager extends Manager
     {
         parent::connect();
     }
+
+    public function findAllById($id, $order = null)
+    {
+        $orderQuery = ($order) ?
+            "ORDER BY " . $order[0] . " " . $order[1] :
+            "";
+
+        $sql = "SELECT * FROM message m, topic t
+                WHERE m.topic_id = t.id_topic " .
+            $orderQuery .
+            "";
+
+        return $this->getMultipleResults(
+            DAO::select($sql),
+            $this->className
+        );
+    }
 }
