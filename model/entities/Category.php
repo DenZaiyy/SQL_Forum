@@ -7,51 +7,51 @@ use App\Entity;
 final class Category extends Entity
 {
 
-    private $id;
-    private $label;
+	private $id;
+	private $label;
 
-    public function __construct($data)
-    {
-        $this->hydrate($data);
-    }
+	public function __construct($data)
+	{
+		$this->hydrate($data);
+	}
 
-    /**
-     * Get the value of id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get the value of id
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set the value of id
-     *
-     * @return  self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+	/**
+	 * Set the value of id
+	 *
+	 * @return  self
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get the value of title
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
+	/**
+	 * Get the value of label
+	 */
+	public function getLabel()
+	{
+		return $this->label;
+	}
 
-    /**
-     * Set the value of title
-     *
-     * @return  self
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
+	/**
+	 * Set the value of label
+	 *
+	 * @return  self
+	 */
+	public function setLabel($label)
+	{
+		$this->label = $label;
 
-        return $this;
-    }
+		return $this;
+	}
 }
