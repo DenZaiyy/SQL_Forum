@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : jeu. 23 mars 2023 à 17:49
+-- Généré le : ven. 24 mars 2023 à 15:22
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.15
 
@@ -53,16 +53,16 @@ CREATE TABLE `message` (
   `id_message` int NOT NULL,
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_topic` int NOT NULL,
-  `id_user` int DEFAULT NULL
+  `topic_id` int NOT NULL,
+  `user_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `message`
 --
 
-INSERT INTO `message` (`id_message`, `text`, `date`, `id_topic`, `id_user`) VALUES
-(1, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, sunt possimus sed molestias modi nam. Rem vero, in cumque dignissimos quis, laboriosam nulla assumenda error ipsa quam repellat eius eligendi?\r\n            Repudiandae, explicabo. Laudantium, reprehenderit similique quis, reiciendis doloremque possimus et aliquam inventore ducimus temporibus perferendis obcaecati at. Rerum ducimus vitae laborum modi pariatur at provident dicta, accusantium reiciendis error repellat!\r\n            Facilis id doloremque minus at commodi voluptatibus repellat ipsa ab possimus debitis ipsam dolore, eum maxime ea quisquam aliquid veniam harum nihil amet explicabo perspiciatis nemo quia? Dolorum, exercitationem minima?', '2023-03-22 19:38:11', 1, NULL);
+INSERT INTO `message` (`id_message`, `text`, `date`, `topic_id`, `user_id`) VALUES
+(1, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, sunt possimus sed molestias modi nam. Rem vero, in cumque dignissimos quis, laboriosam nulla assumenda error ipsa quam repellat eius eligendi?\r\n            Repudiandae, explicabo. Laudantium, reprehenderit similique quis, reiciendis doloremque possimus et aliquam inventore ducimus temporibus perferendis obcaecati at. Rerum ducimus vitae laborum modi pariatur at provident dicta, accusantium reiciendis error repellat!\r\n            Facilis id doloremque minus at commodi voluptatibus repellat ipsa ab possimus debitis ipsam dolore, eum maxime ea quisquam aliquid veniam harum nihil amet explicabo perspiciatis nemo quia? Dolorum, exercitationem minima?', '2023-03-22 19:38:11', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -73,23 +73,23 @@ INSERT INTO `message` (`id_message`, `text`, `date`, `id_topic`, `id_user`) VALU
 CREATE TABLE `topic` (
   `id_topic` int NOT NULL,
   `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `id_user` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL,
-  `id_category` int NOT NULL
+  `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `topic`
 --
 
-INSERT INTO `topic` (`id_topic`, `title`, `id_user`, `date`, `status`, `id_category`) VALUES
-(1, 'Ceci est un topic de test 1', NULL, '2023-03-22 14:39:01', 0, 2),
-(2, 'Ceci est un topic de test 2', NULL, '2023-03-23 08:36:33', 0, 1),
-(3, 'Ceci est un topic de test 3', NULL, '2023-03-23 10:02:35', 0, 2),
-(4, 'Ceci est un topic de test 4', NULL, '2023-03-23 10:02:43', 0, 1),
-(5, 'Ceci est un topic de test 5', NULL, '2023-03-23 10:02:51', 0, 1),
-(6, 'Ceci est un topic de test 6', NULL, '2023-03-23 10:02:58', 0, 2);
+INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `status`, `category_id`) VALUES
+(1, 'Ceci est un topic de test 1', 1, '2023-03-22 14:39:01', 0, 2),
+(2, 'Ceci est un topic de test 2', 1, '2023-03-23 08:36:33', 0, 1),
+(3, 'Ceci est un topic de test 3', 1, '2023-03-23 10:02:35', 0, 2),
+(4, 'Ceci est un topic de test 4', 1, '2023-03-23 10:02:43', 0, 1),
+(5, 'Ceci est un topic de test 5', 1, '2023-03-23 10:02:51', 0, 1),
+(6, 'Ceci est un topic de test 6', 1, '2023-03-23 10:02:58', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -129,16 +129,16 @@ ALTER TABLE `category`
 --
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id_message`),
-  ADD KEY `Message_Topic_FK` (`id_topic`),
-  ADD KEY `Message_User0_FK` (`id_user`);
+  ADD KEY `Message_Topic_FK` (`topic_id`),
+  ADD KEY `Message_User0_FK` (`user_id`);
 
 --
 -- Index pour la table `topic`
 --
 ALTER TABLE `topic`
   ADD PRIMARY KEY (`id_topic`),
-  ADD KEY `Topic_User_FK` (`id_user`),
-  ADD KEY `Topic_Category0_FK` (`id_category`);
+  ADD KEY `Topic_User_FK` (`user_id`),
+  ADD KEY `Topic_Category0_FK` (`category_id`);
 
 --
 -- Index pour la table `user`
@@ -182,15 +182,15 @@ ALTER TABLE `user`
 -- Contraintes pour la table `message`
 --
 ALTER TABLE `message`
-  ADD CONSTRAINT `Message_Topic_FK` FOREIGN KEY (`id_topic`) REFERENCES `topic` (`id_topic`),
-  ADD CONSTRAINT `Message_User0_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `Message_Topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
+  ADD CONSTRAINT `Message_User0_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`);
 
 --
 -- Contraintes pour la table `topic`
 --
 ALTER TABLE `topic`
-  ADD CONSTRAINT `Topic_Category0_FK` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`),
-  ADD CONSTRAINT `Topic_User_FK` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `Topic_Category0_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
+  ADD CONSTRAINT `Topic_User_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
