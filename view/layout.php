@@ -89,10 +89,9 @@
                 <div class="themes">
                     <h3>Category</h3>
                     <div class="cat">
-                        <?php foreach ($categories as $category) { ?>
+                        <?php foreach ($_SESSION['categories'] as $category) { ?>
                             <div class="item">
-                                <a href="index.php?ctrl=home&action=detailCategory&id=<?= $category->getId() ?>">
-                                    <!-- <i class="fa-solid fa-gamepad"></i> Gaming -->
+                                <a href="index.php?ctrl=forum&action=detailCategory&id=<?= $category->getId() ?>">
                                     <?= $category->getLabel(); ?>
                                 </a>
                                 <a href="">

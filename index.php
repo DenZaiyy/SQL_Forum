@@ -50,6 +50,10 @@ $result = $ctrl->$action($id);
 
 $categoryManager = new CategoryManager();
 $categories = $categoryManager->findAll();
+$_SESSION['categories'] = [];
+foreach ($categories as $category) {
+    $_SESSION['categories'][] = $category;
+}
 /*--------CHARGEMENT PAGE--------*/
 
 if ($action == "ajax") { //si l'action était ajax

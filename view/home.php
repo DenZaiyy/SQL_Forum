@@ -1,6 +1,5 @@
 <?php
 $topics = $result["data"]['topics'];
-// $messages = $result["data"]["messages"];
 ?>
 
 <h1>The most 5 recents posts</h1>
