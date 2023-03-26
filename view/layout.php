@@ -110,8 +110,15 @@
 
         <footer>
             <?php $date = date('Y'); ?>
-            <p><a href="">Legal notice</a> - <a href="/home/forumRules.html">Forum rules</a></p>
-            <p>&copy; <?= $date ?> - Created by <strong><a href="https://www.elan-formation.eu/" target="_blank">Elan Formation</a></strong></p>
+            <div class="notices">
+                <div class="lNotice">
+                    <a href="">Legal notice</a>
+                </div>
+                <div class="rules">
+                    <a href="/home/forumRules.html">Forum rules</a>
+                </div>
+            </div>
+            <p>&copy; <?= $date ?> - Created by <strong><a href="https://github.com/DenZaiyy/" target="_blank">GRISCHKO Kevin</a></strong></p>
             <div class="socials">
                 <div class="fb">
                     <a href="" target="_blank">

@@ -6,12 +6,15 @@ $topics = $result["data"]['topics'];
 <?php
 foreach ($topics as $topic) {
 ?>
+
     <div class="card-topic">
         <div class="infos">
             <h4>posted by :</h4>
         </div>
         <div class="preview">
-            <p><?= $topic->getTitle() ?></p>
+            <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">
+                <p><?= $topic->getTitle() ?></p>
+            </a>
         </div>
         <div class="btns">
             <div class="comments">
@@ -34,6 +37,7 @@ foreach ($topics as $topic) {
             </div>
         </div>
     </div>
+
 <?php
 }
 $title = "Home Page";

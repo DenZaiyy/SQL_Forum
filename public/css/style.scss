@@ -187,10 +187,13 @@ header {
             }
 
             .preview {
-                p {
-                    text-align: justify;
-                }
                 margin-bottom: 20px;
+                a{
+                    text-decoration: underline;
+                    p {
+                        text-align: justify;
+                    }
+                }
             }
 
             .btns {
@@ -236,6 +239,16 @@ footer {
     width: 100%;
 
     flex: 1;
+
+    .notices {
+        display: flex;
+        div {
+            margin-right: 10px;
+            a {
+                text-decoration: underline;
+            }
+        }
+    }
 
     .socials {
         display: flex;

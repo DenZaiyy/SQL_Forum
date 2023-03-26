@@ -169,7 +169,10 @@ header nav .profil .active {
 .content-flex main .card-topic .preview {
   margin-bottom: 20px;
 }
-.content-flex main .card-topic .preview p {
+.content-flex main .card-topic .preview a {
+  text-decoration: underline;
+}
+.content-flex main .card-topic .preview a p {
   text-align: justify;
 }
 .content-flex main .card-topic .btns {
@@ -207,6 +210,15 @@ footer {
   left: 0;
   width: 100%;
   flex: 1;
+}
+footer .notices {
+  display: flex;
+}
+footer .notices div {
+  margin-right: 10px;
+}
+footer .notices div a {
+  text-decoration: underline;
 }
 footer .socials {
   display: flex;

@@ -26,6 +26,7 @@ class ForumController extends AbstractController implements ControllerInterface
     //     ];
     // }
 
+    //List of topics
     public function listTopics()
     {
         $topicManager = new TopicManager();
@@ -38,6 +39,7 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    //Detail for one Topic
     public function detailTopic($id)
     {
         $topicManager = new TopicManager();
@@ -45,11 +47,12 @@ class ForumController extends AbstractController implements ControllerInterface
         return [
             "view" => VIEW_DIR . "topic/detailTopic.php",
             "data" => [
-                "topics" => $topicManager->findOneById($id)
+                "topic" => $topicManager->findOneById($id)
             ]
         ];
     }
 
+    //List of categories
     public function listCategories()
     {
         return [
@@ -57,6 +60,7 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    //List of topics for one category
     public function detailCategory($id)
     {
         $topicManager = new TopicManager();
