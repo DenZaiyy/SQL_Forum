@@ -9,7 +9,7 @@ final class Post extends Entity
 
 	private $id;
 	private $message;
-	private $creationdate;
+	private $date;
 	private Topic $topic;
 	private User $user;
 
@@ -39,26 +39,6 @@ final class Post extends Entity
 	}
 
 	/**
-	 * Get the value of title
-	 */
-	public function getMessage()
-	{
-		return $this->message;
-	}
-
-	/**
-	 * Set the value of title
-	 *
-	 * @return  self
-	 */
-	public function setMessage($message)
-	{
-		$this->message = $message;
-
-		return $this;
-	}
-
-	/**
 	 * Get the value of user
 	 */
 	public function getUser()
@@ -78,15 +58,15 @@ final class Post extends Entity
 		return $this;
 	}
 
-	public function getCreationdate()
+	public function getDate()
 	{
-		$formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+		$formattedDate = $this->date->format("d/m/Y, H:i:s");
 		return $formattedDate;
 	}
 
-	public function setCreationdate($date)
+	public function setDate($date)
 	{
-		$this->creationdate = new \DateTime($date);
+		$this->date = new \DateTime($date);
 		return $this;
 	}
 
@@ -106,6 +86,26 @@ final class Post extends Entity
 	public function setTopic($topic)
 	{
 		$this->topic = $topic;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of message
+	 */
+	public function getMessage()
+	{
+		return $this->message;
+	}
+
+	/**
+	 * Set the value of message
+	 *
+	 * @return  self
+	 */
+	public function setMessage($message)
+	{
+		$this->message = $message;
 
 		return $this;
 	}
