@@ -169,6 +169,13 @@ header nav .profil .active {
 .content-flex main .card-topic .preview {
   margin-bottom: 20px;
 }
+.content-flex main .card-topic .preview .title {
+  font-size: 1.3em;
+  margin-bottom: 15px;
+}
+.content-flex main .card-topic .preview .msg {
+  font-size: 1em;
+}
 .content-flex main .card-topic .preview a {
   text-decoration: underline;
 }
@@ -183,6 +190,20 @@ header nav .profil .active {
 }
 .content-flex main .card-topic .btns .share {
   margin-right: 15px;
+}
+.content-flex main .card-comment {
+  background-color: var(--body-response-color);
+  padding: 15px;
+  border-radius: 10px;
+  width: 80%;
+  margin-top: 20px;
+}
+.content-flex main .card-comment .infos {
+  display: flex;
+}
+.content-flex main .card-comment .infos .img img {
+  width: 50px;
+  height: 50px;
 }
 .content-flex main .categories {
   display: grid;
