@@ -9,7 +9,7 @@ final class User extends Entity
 
 	private $id;
 	private $pseudo;
-	private $mail;
+	private $email;
 	private $creationdate;
 	private $avatar;
 	private $role;
@@ -55,26 +55,6 @@ final class User extends Entity
 	public function setPseudo($pseudo)
 	{
 		$this->pseudo = $pseudo;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of mail
-	 */
-	public function getMail()
-	{
-		return $this->mail;
-	}
-
-	/**
-	 * Set the value of mail
-	 *
-	 * @return  self
-	 */
-	public function setMail($mail)
-	{
-		$this->mail = $mail;
 
 		return $this;
 	}
@@ -127,6 +107,26 @@ final class User extends Entity
 	public function setRole($role)
 	{
 		$this->role = $role;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of email
+	 */
+	public function getEmail()
+	{
+		return $this->email;
+	}
+
+	/**
+	 * Set the value of email
+	 *
+	 * @return  self
+	 */
+	public function setEmail($email)
+	{
+		$this->email = $email;
 
 		return $this;
 	}
