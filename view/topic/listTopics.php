@@ -12,6 +12,7 @@ $topics = $result["data"]['topics'];
         <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">
             <div class="category">
                 <p><?= $topic->getTitle() ?></p>
+                <p>post by : <?= $topic->getUser()->getPseudo() ?></p>
             </div>
         </a>
     <?php

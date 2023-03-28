@@ -24,12 +24,24 @@ class PostManager extends Manager
             "";
 
         $sql = "SELECT * FROM message m, topic t
-                WHERE m.topic_id = t.id_topic " .
-            $orderQuery .
-            "";
+                WHERE m.topic_id = t.id_topic
+                AND t.id_topic = :id" .
+            $orderQuery;
 
         return $this->getMultipleResults(
-            DAO::select($sql),
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
+
+    public function findFirstById($id)
+    {
+        $sql = "SELECT * FROM message m, topic t
+                WHERE m.topic_id = t.id_topic
+                AND m.topic_id = :id";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['id' => $id], false),
             $this->className
         );
     }

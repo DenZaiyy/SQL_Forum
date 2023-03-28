@@ -9,7 +9,7 @@ foreach ($topics as $topic) {
 
     <div class="card-topic">
         <div class="infos">
-            <h4>posted by :</h4>
+            <h4>posted by : <?= $topic->getUser()->getPseudo() . " - " . $topic->getDate() ?></h4>
         </div>
         <div class="preview">
             <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">

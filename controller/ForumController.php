@@ -43,11 +43,14 @@ class ForumController extends AbstractController implements ControllerInterface
     public function detailTopic($id)
     {
         $topicManager = new TopicManager();
+        $postManager = new PostManager();
 
         return [
             "view" => VIEW_DIR . "topic/detailTopic.php",
             "data" => [
-                "topic" => $topicManager->findOneById($id)
+                "topic" => $topicManager->findOneById($id),
+                "firstMessage" => $postManager->findFirstById($id),
+                "findComments" => $postManager->findAllById($id)
             ]
         ];
     }
