@@ -45,6 +45,8 @@
                             <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
                             <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
                         </div>
+                        <a href="index.php?ctrl=security&action=registerForm">Register</a>
+                        <a href="index.php?ctrl=security&action=loginForm">Login</a>
                         <div class="btn-disconnect">
                             <a href="">Disconnect</a>
                         </div>
