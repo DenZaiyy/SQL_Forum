@@ -5,3 +5,7 @@
     <input type="password" name="password" placeholder="password" required>
     <button type="submit">Valider</button>
 </form>
+
+<?php
+
+$title = "Login page";

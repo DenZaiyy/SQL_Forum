@@ -17,53 +17,75 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function registerForm()
     {
         return [
-            "view" => VIEW_DIR . "security/register.php",
-            "data" => null
+            "view" => VIEW_DIR . "security/register.php"
         ];
     }
 
     public function loginForm()
     {
         return [
-            "view" => VIEW_DIR . "security/login.php",
-            "data" => null
+            "view" => VIEW_DIR . "security/login.php"
         ];
     }
 
     public function register()
     {
         if (!empty($_POST)) {
-            $nickname = filter_input(INPUT_POST, $_POST['pseudo'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $email = filter_input(INPUT_POST, $_POST['email'], FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
-            $password = filter_input(INPUT_POST, $_POST['password'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $confirmPassword = filter_input(INPUT_POST, $_POST['confirmPassword'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_EMAIL);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $confirmPassword = filter_input(INPUT_POST, 'confirmPassword', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($nickname && $password && $email) {
-                if (($password == $confirmPassword) and strlen($password >= 8)) {
+            if ($pseudo && $email && $password) {
+                if (($password == $confirmPassword) and strlen($password) >= 8) {
                     $manager = new UserManager();
-                    $user = $manager->findOneByPseudo($nickname);
+                    $user = $manager->findOneByPseudo($pseudo);
 
                     if (!$user) {
                         $hash = password_hash($password, PASSWORD_DEFAULT);
 
                         if ($manager->add([
-                            "pseudo" => $nickname,
-                            "email" => $email,
+                            "pseudo" => $pseudo,
+                            "mail" => $email,
                             "password" => $hash,
                         ])) {
-                            return var_dump("Vous êtes bien inscrit");
+                            return [
+                                "view" => VIEW_DIR . "security/login.php",
+                                SESSION::addFlash("success", "Vous êtes bien inscrit")
+                            ];
+                        } else {
+                            return [
+                                "view" => VIEW_DIR . "security/register.php",
+                                SESSION::addFlash("error", "Erreur d'inscription")
+                            ];
                         }
+                    } else {
+                        return [
+                            "view" => VIEW_DIR . "security/register.php",
+                            SESSION::addFlash("error", "Pseudo déjà utilisé")
+                        ];
                     }
+                } else {
+                    return [
+                        "view" => VIEW_DIR . "security/register.php",
+                        SESSION::addFlash("error", "Information incorrect")
+                    ];
                 }
             }
         }
-
-        return [
-            "view" => VIEW_DIR . "security/register.php"
-        ];
     }
 
     public function login()
+    {
+        // password_verify()
+        // user en session
+    }
+
+    public function modifyPassword()
+    {
+    }
+
+    public function logout()
     {
     }
 }
