@@ -53,38 +53,38 @@
                     </div>
                 </div>
             </nav>
-            <!-- <nav>
-                    <div id="nav-left">
-                        <a href="/">Accueil</a>
-                        <?php
-                        if (App\Session::isAdmin()) {
-                        ?>
-                            <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
+            <nav>
+                <!-- <div id="nav-left">
+                    <a href="/">Accueil</a>
+                    <?php
+                    if (App\Session::isAdmin()) {
+                    ?>
+                        <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
 
-                        <?php
-                        }
-                        ?>
-                    </div>
-                    <div id="nav-right">
-                        <?php
+                    <?php
+                    }
+                    ?>
+                </div> -->
+                <div id="nav-right">
+                    <?php
 
-                        if (App\Session::getUser()) {
-                        ?>
-                            <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a>
-                            <a href="/security/logout.html">Déconnexion</a>
-                        <?php
-                        } else {
-                        ?>
-                            <a href="./view/security/login.php">Connexion</a>
-                            <a href="/security/register.html">Inscription</a>
-                            <a href="index.php?ctrl=forum&action=listTopics">la liste des topics</a>
-                        <?php
-                        }
+                    if (App\Session::getUser()) {
+                    ?>
+                        <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a>
+                        <a href="/security/logout.html">Déconnexion</a>
+                    <?php
+                    } else {
+                    ?>
+                        <a href="./view/security/login.php">Connexion</a>
+                        <a href="/security/register.html">Inscription</a>
+                        <a href="index.php?ctrl=forum&action=listTopics">la liste des topics</a>
+                    <?php
+                    }
 
 
-                        ?>
-                    </div>
-                </nav> -->
+                    ?>
+                </div>
+            </nav>
         </header>
         <div class="content-flex">
             <aside>
@@ -152,9 +152,11 @@
                     })
                 }
             })
+
             $(".delete-btn").on("click", function() {
                 return confirm("Etes-vous sûr de vouloir supprimer?")
             })
+
             tinymce.init({
                 selector: '.post',
                 menubar: false,

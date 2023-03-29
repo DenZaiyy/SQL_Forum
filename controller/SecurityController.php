@@ -77,8 +77,33 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
     public function login()
     {
-        // password_verify()
-        // user en session
+        if (!empty($_POST)) {
+            $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+            if ($pseudo && $password) {
+                if (password_verify($password, $hash)) {
+                    $manager = new UserManager();
+                    $manager->connectUser($pseudo, $password);
+                    SESSION::setUser($pseudo);
+                    return [
+                        "view" => VIEW_DIR . "home.php",
+                        SESSION::addFlash("success", "Bravo " . SESSION::getUser() . ", vous êtes connecté!")
+                    ];
+                } else {
+                    return [
+                        "view" => VIEW_DIR . "security/login.php",
+                        SESSION::addFlash("error", "Une erreur est survenue lors de la connexion")
+                    ];
+                }
+            } else {
+                return [
+                    "view" => VIEW_DIR . "security/login.php",
+                    SESSION::addFlash('error', 'Identifiant incorrect.')
+                ];
+            }
+        }
     }
 
     public function modifyPassword()
