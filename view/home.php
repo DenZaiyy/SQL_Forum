@@ -17,22 +17,16 @@ foreach ($topics as $topic) {
             </a>
         </div>
         <div class="btns">
+            <div class="like">
+                <a href="">
+                    <i class="fa-regular fa-thumbs-up"></i>
+                    Like
+                </a>
+            </div>
             <div class="comments">
                 <a href="">
                     <i class="fa-solid fa-comment"></i>
-                    Comments
-                </a>
-            </div>
-            <div class="share">
-                <a href="">
-                    <i class="fa-solid fa-retweet"></i>
-                    Share
-                </a>
-            </div>
-            <div class="save">
-                <a href="">
-                    <i class="fa-solid fa-bookmark"></i>
-                    Save
+                    Comment
                 </a>
             </div>
         </div>
