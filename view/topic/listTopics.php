@@ -1,5 +1,4 @@
 <?php
-
 $topics = $result["data"]['topics'];
 
 ?>
