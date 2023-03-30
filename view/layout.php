@@ -55,7 +55,7 @@
                             </div>
                         <?php } else { ?>
                             <div class="links">
-                                <a href="index.php?ctrl=security&action=registerForm">Register</a>
+                                <a href="index.php?ctrl=security&action=registerForm"><i class="fa-solid fa-user-plus"></i> Register</a>
                                 <a href="index.php?ctrl=security&action=loginForm"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
                             </div>
                         <?php } ?>
