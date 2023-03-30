@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mer. 29 mars 2023 à 06:58
+-- Généré le : jeu. 30 mars 2023 à 16:01
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.15
 
@@ -46,6 +46,18 @@ INSERT INTO `category` (`id_category`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `like`
+--
+
+CREATE TABLE `like` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `topic_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `message`
 --
 
@@ -84,6 +96,7 @@ CREATE TABLE `topic` (
   `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `user_id` int NOT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `nbLike` int DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -92,14 +105,14 @@ CREATE TABLE `topic` (
 -- Déchargement des données de la table `topic`
 --
 
-INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `status`, `category_id`) VALUES
-(1, 'Ceci est un topic de test 1', 1, '2023-03-22 14:39:01', 0, 2),
-(2, 'Ceci est un topic de test 2', 2, '2023-03-23 08:36:33', 0, 1),
-(3, 'Ceci est un topic de test 3', 1, '2023-03-23 10:02:35', 0, 2),
-(4, 'Ceci est un topic de test 4', 1, '2023-03-23 10:02:43', 0, 1),
-(5, 'Ceci est un topic de test 5', 1, '2023-03-23 10:02:51', 0, 1),
-(6, 'Ceci est un topic de test 6', 1, '2023-03-23 10:02:58', 0, 2),
-(7, 'What is PDO ?', 1, '2023-03-28 06:49:27', 0, 5);
+INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `nbLike`, `status`, `category_id`) VALUES
+(1, 'Ceci est un topic de test 1', 1, '2023-03-22 14:39:01', NULL, 0, 2),
+(2, 'Ceci est un topic de test 2', 2, '2023-03-23 08:36:33', NULL, 0, 1),
+(3, 'Ceci est un topic de test 3', 1, '2023-03-23 10:02:35', NULL, 0, 2),
+(4, 'Ceci est un topic de test 4', 1, '2023-03-23 10:02:43', NULL, 0, 1),
+(5, 'Ceci est un topic de test 5', 1, '2023-03-23 10:02:51', NULL, 0, 1),
+(6, 'Ceci est un topic de test 6', 1, '2023-03-23 10:02:58', NULL, 0, 2),
+(7, 'What is PDO ?', 1, '2023-03-28 06:49:27', NULL, 0, 5);
 
 -- --------------------------------------------------------
 
@@ -110,7 +123,7 @@ INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `status`, `category
 CREATE TABLE `user` (
   `id_user` int NOT NULL,
   `pseudo` varchar(100) NOT NULL,
-  `mail_adress` varchar(100) NOT NULL,
+  `mail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `avatar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
@@ -121,9 +134,10 @@ CREATE TABLE `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id_user`, `pseudo`, `mail_adress`, `password`, `createdAt`, `avatar`, `role`) VALUES
-(1, 'denZ', 'denz@example.com', 'test123', '2023-03-22 19:57:22', 'public/img/default-user.png', NULL),
-(2, 'test', 'test@test.com', 'testtesttest', '2023-03-28 06:48:42', NULL, NULL);
+INSERT INTO `user` (`id_user`, `pseudo`, `mail`, `password`, `createdAt`, `avatar`, `role`) VALUES
+(1, 'denZ', 'denz@example.com', 'test123', '2023-03-22 19:57:22', 'public/img/defaulta-user.png', NULL),
+(2, 'test', 'test@test.com', 'testtesttest', '2023-03-28 06:48:42', NULL, NULL),
+(4, 'denzaiyy', 'support@denzaiyy.fr', '$2y$10$MKXowrKGD.CjHbuJi9lpx.1wv78HYPu5FaesfuV0a41cimd7iQA8q', '2023-03-30 09:35:26', 'public/img/defaulta-user.png', '\"ROLE_USER\"');
 
 --
 -- Index pour les tables déchargées
@@ -134,6 +148,14 @@ INSERT INTO `user` (`id_user`, `pseudo`, `mail_adress`, `password`, `createdAt`,
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id_category`);
+
+--
+-- Index pour la table `like`
+--
+ALTER TABLE `like`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `topic` (`topic_id`),
+  ADD KEY `user` (`user_id`);
 
 --
 -- Index pour la table `message`
@@ -168,6 +190,12 @@ ALTER TABLE `category`
   MODIFY `id_category` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT pour la table `like`
+--
+ALTER TABLE `like`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
@@ -183,11 +211,18 @@ ALTER TABLE `topic`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `like`
+--
+ALTER TABLE `like`
+  ADD CONSTRAINT `topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `message`
