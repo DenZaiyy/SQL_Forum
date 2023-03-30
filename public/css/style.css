@@ -28,6 +28,7 @@ body {
 }
 body a {
   color: var(--color-white);
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -78,11 +79,10 @@ header nav .searchBar input[type=search]:focus {
   outline: none;
 }
 header nav .profil {
-  border-radius: 50%;
-  overflow: hidden;
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  cursor: pointer;
 }
 header nav .profil .dropdown-user-menu {
   visibility: hidden;
@@ -185,10 +185,7 @@ header nav .profil .active {
 .content-flex main .card-topic .btns {
   display: flex;
 }
-.content-flex main .card-topic .btns .comments {
-  margin-right: 15px;
-}
-.content-flex main .card-topic .btns .share {
+.content-flex main .card-topic .btns .like {
   margin-right: 15px;
 }
 .content-flex main .card-comment {

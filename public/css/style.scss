@@ -29,6 +29,7 @@ body {
 
     a {
         color: var(--color-white);
+        cursor: pointer;
         text-decoration: none;
     }
 }
@@ -82,9 +83,10 @@ header {
         }
 
         .profil {
-            border-radius: 50%;
-            overflow: hidden;
+            // border-radius: 50%;
+            // overflow: hidden;
             user-select: none;
+            cursor: pointer;
 
             .dropdown-user-menu {
                 visibility: hidden;
@@ -207,13 +209,10 @@ header {
             .btns {
                 display: flex;
 
-                .comments {
+                .like {
                     margin-right: 15px;
                 }
 
-                .share {
-                    margin-right: 15px;
-                }
             }
         }
 
