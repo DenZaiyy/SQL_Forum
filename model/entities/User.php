@@ -10,6 +10,7 @@ final class User extends Entity
 	private $id;
 	private $pseudo;
 	private $email;
+	private $password;
 	private $creationdate;
 	private $avatar;
 	private $role;
@@ -127,6 +128,26 @@ final class User extends Entity
 	public function setEmail($email)
 	{
 		$this->email = $email;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of password
+	 */
+	public function getPassword()
+	{
+		return $this->password;
+	}
+
+	/**
+	 * Set the value of password
+	 *
+	 * @return  self
+	 */
+	public function setPassword($password)
+	{
+		$this->password = $password;
 
 		return $this;
 	}
