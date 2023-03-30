@@ -31,7 +31,7 @@ class UserManager extends Manager
 
     public function connectUser($pseudo, $password)
     {
-        $sql = "SELECT u.pseudo, u.password
+        $sql = "SELECT u.pseudo
                 FROM " . $this->tableName . " u 
                 WHERE u.pseudo = :pseudo 
                 AND u.password = :password";
