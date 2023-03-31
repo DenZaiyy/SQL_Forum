@@ -42,7 +42,6 @@ class HomeController extends AbstractController implements ControllerInterface
 
     public function forumRules()
     {
-
         return [
             "view" => VIEW_DIR . "rules.php"
         ];

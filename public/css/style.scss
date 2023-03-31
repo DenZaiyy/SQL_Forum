@@ -211,6 +211,15 @@ header {
 
                 .like {
                     margin-right: 15px;
+                    button {
+                        padding: 10px;
+                        cursor: pointer;
+                        border-radius: 50px;
+                        background-color: #251F44;
+                        text-align: center;
+                        color: var(--color-white);
+                        border: none;
+                    }
                 }
 
             }

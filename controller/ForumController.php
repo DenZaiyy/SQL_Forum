@@ -93,7 +93,6 @@ class ForumController extends AbstractController implements ControllerInterface
         $likeManager = new LikeManager();
 
         $user = SESSION::getUser()->getId();
-
         $topic = $_GET['id'];
 
         $userLiked = $likeManager->findOneByPseudo($user);
