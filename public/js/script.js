@@ -14,6 +14,24 @@ $(document).ready(function () {
     $("#profil").on("click", function () {
         $("#dropdown").toggleClass("active");
     });
+
+    function fetchData() {
+        var btnLike = $("#nbLikes").val();
+
+        $.post(
+            "index.php?ctrl=forum&action=like",
+            {
+                submit: btnLike,
+            },
+            function (data, status) {
+                if (data != 0) {
+                    return data;
+                }
+            }
+        );
+    }
+
+    fetchData();
 });
 
 // $("#ajaxbtn").on("click", function() {
