@@ -63,8 +63,20 @@ class LikeManager extends Manager
                 )
                 WHERE t.id_topic = ?";
 
+        return $this->getMultipleResults(
+            DAO::select($sql, [$topicID, $topicID], true),
+            $this->className
+        );
+    }
+
+    public function countLikes($topicID)
+    {
+        $sql = "SELECT COUNT(*)
+                FROM `" . $this->tableName . "` l 
+                WHERE l.topic_id = ?";
+
         return $this->getOneOrNullResult(
-            DAO::select($sql, [$topicID, $topicID]),
+            DAO::select($sql, [$topicID]),
             $this->className
         );
     }
