@@ -56,10 +56,10 @@ abstract class Manager
         //$values = ['Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com']
         $values = array_values($data);
         //"username,password,email"
-        $sql = "INSERT INTO " . $this->tableName . "
-                    (" . implode(',', $keys) . ") 
-                    VALUES
-                    ('" . implode("','", $values) . "')";
+        $sql = "INSERT INTO `" . $this->tableName . "` 
+                (" . implode(',', $keys) . ") 
+                VALUES 
+                ('" . implode("','", $values) . "')";
         //"'Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com'"
         /*
                 INSERT INTO user (username,password,email) VALUES ('Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com') 
@@ -74,9 +74,8 @@ abstract class Manager
 
     public function delete($id)
     {
-        $sql = "DELETE FROM " . $this->tableName . "
-                    WHERE id_" . $this->tableName . " = :id
-                    ";
+        $sql = "DELETE FROM `" . $this->tableName . "`
+                WHERE id_" . $this->tableName . " = :id";
 
         return DAO::delete($sql, ['id' => $id]);
     }

@@ -11,6 +11,7 @@ final class Topic extends Entity
 	private $title;
 	private $user;
 	private $date;
+	private $likes;
 	private $closed;
 	private $category;
 
@@ -128,6 +129,26 @@ final class Topic extends Entity
 	public function setCategory($category)
 	{
 		$this->category = $category;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of likes
+	 */
+	public function getLikes()
+	{
+		return $this->likes;
+	}
+
+	/**
+	 * Set the value of likes
+	 *
+	 * @return  self
+	 */
+	public function setLikes($likes)
+	{
+		$this->likes = $likes;
 
 		return $this;
 	}

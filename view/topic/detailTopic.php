@@ -1,8 +1,9 @@
-<?php $topic = $result["data"]["topic"];
+<?php
+$title = "Detail topic";
+
+$topic = $result["data"]["topic"];
 $message = $result["data"]["firstMessage"];
 $comments = $result["data"]["findComments"];
-// var_dump($message);
-// die();
 ?>
 <div class="card-topic">
     <div class="infos">
@@ -17,11 +18,10 @@ $comments = $result["data"]["findComments"];
         </div>
     </div>
     <div class="btns">
-        <div class="comments">
-            <a href="">
-                <i class="fa-solid fa-comment"></i>
-                Comments
-            </a>
+        <div class="like">
+            <form action="index.php?ctrl=forum&action=like&id=<?= $topic->getId() ?>" method="post">
+                <button type="submit"><i class="fa-regular fa-thumbs-up"></i> <?= $topic->getLikes() ? "(" . $topic->getLikes() . ")" : "" ?> Like</button>
+            </form>
         </div>
     </div>
 </div>
@@ -37,9 +37,11 @@ if ($comments) {
                         <img src="<?= $comment->getUser()->getAvatar() ?>" alt="image of user(<?= $comment->getUser()->getPseudo() ?>)">
                     </div>
                     <div class="createBy">
-                        <p><?= $comment->getUser()->getPseudo() ?>, <?= $comment->getDate() ?></p>
+                        <p><?= $comment->getUser()->getPseudo() ?></p>
+                        <p><?= $comment->getDate() ?></p>
                     </div>
                 </div>
+                <hr>
                 <div class="preview">
                     <div class="msg">
                         <p><?= $comment->getMessage() ?></p>
@@ -49,6 +51,10 @@ if ($comments) {
 <?php
         }
     }
-}
+} ?>
 
-$title = "Detail topic";
+<div class="newCom">
+    <a href="index.php?ctrl=forum&action=addComment">
+        <i class="fa-solid fa-plus fa-l"></i> Add new comment
+    </a>
+</div>
