@@ -197,10 +197,53 @@ header nav .profil .active {
 }
 .content-flex main .card-comment .infos {
   display: flex;
+  align-items: center;
+}
+.content-flex main .card-comment .infos .img {
+  height: 50px;
 }
 .content-flex main .card-comment .infos .img img {
   width: 50px;
   height: 50px;
+}
+.content-flex main .card-comment .infos .createBy {
+  margin-left: 10px;
+}
+.content-flex main .card-comment hr {
+  text-align: center;
+  margin: 10px 0;
+}
+.content-flex main .card-comment .preview {
+  margin-top: 10px;
+}
+.content-flex main .newCom {
+  margin-top: 20px;
+}
+.content-flex main .newCom a {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #251F44;
+}
+.content-flex main .newCom a i {
+  color: #251F44;
+}
+.content-flex main .addComment {
+  background-color: #4E558B;
+  padding: 15px;
+  border-radius: 10px;
+  width: 80%;
+  margin-top: 10%;
+}
+.content-flex main .addComment strong {
+  text-align: center;
+}
+.content-flex main .addComment form textarea {
+  padding: 10px;
+  border-radius: 10px;
+}
+.content-flex main .addComment form button {
+  margin-left: 10px;
+  width: 200px;
 }
 .content-flex main .categories {
   display: grid;

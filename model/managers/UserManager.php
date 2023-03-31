@@ -19,8 +19,8 @@ class UserManager extends Manager
 
     public function findOneByPseudo($data)
     {
-        $sql = "SELECT u.pseudo
-                FROM " . $this->tableName . " u
+        $sql = "SELECT u.id_user, u.pseudo, u.avatar
+                FROM `" . $this->tableName . "` u
                 WHERE u.pseudo = :pseudo";
 
         return $this->getOneOrNullResult(
@@ -31,8 +31,8 @@ class UserManager extends Manager
 
     public function connectUser($pseudo, $password)
     {
-        $sql = "SELECT u.pseudo
-                FROM " . $this->tableName . " u 
+        $sql = "SELECT u.id_user, u.pseudo, u.avatar
+                FROM `" . $this->tableName . "` u 
                 WHERE u.pseudo = :pseudo 
                 AND u.password = :password";
 

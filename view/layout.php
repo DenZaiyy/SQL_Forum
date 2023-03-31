@@ -41,7 +41,7 @@
                             <a href="">
                                 <div class="user-info">
                                     <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
-                                    <strong><?= App\Session::getUser() ?></strong>
+                                    <strong><?= App\Session::getUser()->getPseudo() ?></strong>
                                 </div>
                             </a>
                             <div class="links">

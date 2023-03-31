@@ -55,6 +55,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                             "pseudo" => $pseudo,
                             "mail" => $email,
                             "password" => $hash,
+                            // "avatar" => $avatar,
                             "role" => '"ROLE_USER"'
                         ])) {
                             $this->redirectTo("security", "loginForm");
@@ -91,9 +92,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 if ($user) {
                     if (password_verify($password, $hash)) {
                         $manager->connectUser($pseudo, $password);
-                        SESSION::setUser($pseudo);
+                        SESSION::setUser($user);
 
-                        SESSION::addFlash("success", "Bravo " . SESSION::getUser() . ", vous êtes connecté!");
+                        SESSION::addFlash("success", "Bravo " . SESSION::getUser()->getPseudo() . ", vous êtes connecté!");
                         $this->redirectTo("forum", "listTopics");
                     } else {
                         $this->redirectTo("security", "loginForm");
@@ -110,14 +111,14 @@ class SecurityController extends AbstractController implements ControllerInterfa
         }
     }
 
-    public function modifyPassword()
-    {
-    }
-
     public function logout()
     {
         unset($_SESSION['user']);
         session_destroy();
         $this->redirectTo("security", "loginForm");
     }
+
+    // public function modifyPassword()
+    // {
+    // }
 }
