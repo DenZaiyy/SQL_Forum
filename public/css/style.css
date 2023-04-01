@@ -24,7 +24,6 @@ body {
   background-color: var(--body-color);
   color: var(--color-white);
   min-height: 100vh;
-  position: relative;
 }
 body a {
   color: var(--color-white);
@@ -32,8 +31,15 @@ body a {
   text-decoration: none;
 }
 
+.bg-img {
+  background: url("../img/fond.jpg");
+  background-size: cover;
+}
+
 .container {
   min-height: 100vh;
+  position: relative;
+  padding-bottom: 100px;
 }
 
 header nav {
@@ -94,6 +100,7 @@ header nav .profil .dropdown-user-menu {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 15px;
   transition: var(--trans-linear-02s);
+  z-index: 5;
 }
 header nav .profil .dropdown-user-menu .user-info {
   display: flex;
@@ -130,12 +137,11 @@ header nav .profil .active {
 
 .content-flex {
   display: flex;
-  min-height: 100%;
+  height: 86vh;
 }
 .content-flex aside {
   padding: 20px;
   min-width: 250px;
-  min-height: 85vh;
   background-color: #4E558B;
 }
 .content-flex aside .themes h3 {
@@ -162,6 +168,29 @@ header nav .profil .active {
   border-radius: 10px;
   width: 80%;
   margin-top: 20px;
+  position: relative;
+}
+.content-flex main .card-topic .status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+}
+.content-flex main .card-topic .status form {
+  margin-left: 10px;
+}
+.content-flex main .card-topic .status form button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.content-flex main .card-topic .status form button i {
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.content-flex main .card-topic .status form button i:hover {
+  color: red;
+  transition: all 0.3s ease-in-out;
 }
 .content-flex main .card-topic .infos {
   margin-bottom: 15px;
@@ -170,11 +199,22 @@ header nav .profil .active {
   margin-bottom: 20px;
 }
 .content-flex main .card-topic .preview .title {
-  font-size: 1.3em;
   margin-bottom: 15px;
+}
+.content-flex main .card-topic .preview .title strong {
+  font-size: 1.2em;
+}
+.content-flex main .card-topic .preview .title p {
+  font-family: "Courier New", Courier, monospace;
 }
 .content-flex main .card-topic .preview .msg {
   font-size: 1em;
+}
+.content-flex main .card-topic .preview .msg strong {
+  font-size: 1.2em;
+}
+.content-flex main .card-topic .preview .msg p {
+  font-family: "Courier New", Courier, monospace;
 }
 .content-flex main .card-topic .preview a {
   text-decoration: underline;
@@ -203,6 +243,25 @@ header nav .profil .active {
   border-radius: 10px;
   width: 80%;
   margin-top: 20px;
+  position: relative;
+}
+.content-flex main .card-comment .status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.content-flex main .card-comment .status button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.content-flex main .card-comment .status button i {
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.content-flex main .card-comment .status button i:hover {
+  color: red;
+  transition: all 0.3s ease-in-out;
 }
 .content-flex main .card-comment .infos {
   display: flex;
@@ -225,34 +284,137 @@ header nav .profil .active {
 .content-flex main .card-comment .preview {
   margin-top: 10px;
 }
-.content-flex main .newCom {
-  margin-top: 20px;
-}
-.content-flex main .newCom a {
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #251F44;
-}
-.content-flex main .newCom a i {
-  color: #251F44;
-}
-.content-flex main .addComment {
-  background-color: #4E558B;
+.content-flex main .form-comment {
+  background-color: var(--head-color);
   padding: 15px;
   border-radius: 10px;
   width: 80%;
-  margin-top: 10%;
+  margin-top: 30px;
 }
-.content-flex main .addComment strong {
+.content-flex main .form-comment strong {
   text-align: center;
 }
-.content-flex main .addComment form textarea {
+.content-flex main .form-comment form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content-flex main .form-comment form textarea {
+  background-color: #4E558B;
+  color: var(--color-white);
   padding: 10px;
   border-radius: 10px;
+  resize: none;
+  width: 100%;
+  height: 10vh;
 }
-.content-flex main .addComment form button {
-  margin-left: 10px;
+.content-flex main .form-comment form textarea::-moz-placeholder {
+  color: var(--color-white);
+}
+.content-flex main .form-comment form textarea::placeholder {
+  color: var(--color-white);
+}
+.content-flex main .form-comment form textarea:focus {
+  outline: none;
+}
+.content-flex main .form-comment form button {
+  background-color: #4E558B;
+  color: var(--color-white);
+  border: 1px solid var(--color-white);
+  cursor: pointer;
   width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.2s linear;
+  margin-top: 10px;
+  text-align: center;
+}
+.content-flex main .form-comment form button:hover {
+  background-color: var(--color-white);
+  color: var(--icon-topic-color-2);
+  transition: all 0.2s linear;
+}
+.content-flex main .addTopic {
+  background-color: var(--icon-topic-color-2);
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  height: 90%;
+}
+.content-flex main .addTopic label {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.content-flex main .addTopic h1 {
+  text-align: center;
+  text-transform: capitalize;
+}
+.content-flex main .addTopic form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  align-items: center;
+  height: 54vh;
+}
+.content-flex main .addTopic form .title {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  width: 100%;
+}
+.content-flex main .addTopic form .title input {
+  margin-top: 5px;
+  height: 30px;
+  padding: 10px;
+  background-color: var(--body-color);
+  border: 1px solid var(--body-color);
+  font-family: "Courier New", Courier, monospace;
+}
+.content-flex main .addTopic form .title input:focus {
+  outline: none;
+  border: 1px solid var(--color-white);
+}
+.content-flex main .addTopic form .firstMessage {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  width: 100%;
+  margin-top: 10px;
+  height: 100%;
+}
+.content-flex main .addTopic form .firstMessage textarea {
+  margin-top: 5px;
+  height: 30px;
+  padding: 5px;
+  height: 100%;
+  resize: none;
+  padding: 10px;
+  background-color: var(--body-color);
+  border: 1px solid var(--body-color);
+  font-family: "Courier New", Courier, monospace;
+}
+.content-flex main .addTopic form .firstMessage textarea:focus {
+  outline: none;
+  border: 1px solid var(--color-white);
+}
+.content-flex main .addTopic form button {
+  background-color: var(--head-color);
+  margin-top: 30px;
+  height: 40px;
+  border-radius: 50px;
+  border: 2px solid var(--color-white);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: var(--color-white);
+  padding: 10px 40px;
+  transition: all 0.2s linear;
+}
+.content-flex main .addTopic form button:hover {
+  background-color: var(--color-white);
+  color: var(--head-color);
+  border: 2px solid var(--head-color);
+  transition: all 0.2s linear;
 }
 .content-flex main .categories {
   display: grid;
@@ -267,6 +429,89 @@ header nav .profil .active {
   margin: 10px;
   padding: 50px;
   text-align: center;
+}
+
+.main-content {
+  display: flex;
+  height: 85vh;
+  align-items: center;
+  justify-content: center;
+}
+.main-content .login, .main-content .register {
+  border-radius: 50px;
+  width: 40%;
+  padding: 40px;
+  background: rgba(100, 122, 183, 0.5);
+}
+.main-content .login form, .main-content .register form {
+  display: flex;
+  flex-direction: column;
+}
+.main-content .login form label, .main-content .register form label {
+  text-transform: uppercase;
+}
+.main-content .login form input, .main-content .register form input {
+  margin-top: 10px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 50px;
+  border: 2px solid var(--color-white);
+  background-color: var(--body-color);
+  color: var(--color-white);
+}
+.main-content .login form button, .main-content .register form button {
+  height: 70px;
+  background-color: var(--icon-topic-color-2);
+  border: 2px solid var(--color-white);
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--color-white);
+  margin-top: 50px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+.main-content .login form button:hover, .main-content .register form button:hover {
+  transition: all 0.2s linear;
+  background-color: var(--body-color);
+  color: var(--icon-topic-color-2);
+  border: 2px solid var(--icon-topic-color-2);
+}
+.main-content .login form .upload, .main-content .register form .upload {
+  position: relative;
+}
+.main-content .login form .upload input, .main-content .register form .upload input {
+  width: 100%;
+}
+.main-content .login form .upload #avatar, .main-content .register form .upload #avatar {
+  opacity: 0;
+  position: absolute;
+}
+.main-content .login form .input, .main-content .register form .input {
+  display: flex;
+  flex-direction: column;
+}
+.main-content .login form .input:nth-last-child(-n+5), .main-content .register form .input:nth-last-child(-n+5) {
+  margin-top: 15px;
+}
+.main-content .login .btn-register, .main-content .register .btn-register {
+  display: flex;
+  justify-content: center;
+  height: 70px;
+  border: 2px solid var(--color-white);
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  margin-top: 15px;
+  transition: all 0.2s linear;
+}
+.main-content .login .btn-register:hover, .main-content .register .btn-register:hover {
+  transition: all 0.2s linear;
+  background-color: var(--body-color);
+  color: var(--icon-topic-color-2);
+  border: 2px solid var(--icon-topic-color-2);
 }
 
 footer {
