@@ -19,7 +19,7 @@ class UserManager extends Manager
 
     public function findOneByPseudo($data)
     {
-        $sql = "SELECT u.id_user, u.pseudo, u.avatar
+        $sql = "SELECT u.id_user, u.pseudo, u.avatar, u.role
                 FROM `" . $this->tableName . "` u
                 WHERE u.pseudo = :pseudo";
 
@@ -40,5 +40,15 @@ class UserManager extends Manager
             DAO::select($sql, ['pseudo' => $pseudo, 'password' => $password], false),
             $this->className
         );
+    }
+
+    // function updatePassword ($pseudo, $password) for SecurityController.php
+    public function updatePassword($pseudo, $password)
+    {
+        $sql = "UPDATE `" . $this->tableName . "` u
+                SET u.password = :password
+                WHERE u.pseudo = :pseudo";
+
+        return DAO::update($sql, ['pseudo' => $pseudo, 'password' => $password]);
     }
 }

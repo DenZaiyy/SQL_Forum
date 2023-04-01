@@ -11,7 +11,7 @@ final class User extends Entity
 	private $pseudo;
 	private $email;
 	private $password;
-	private $creationdate;
+	private $createdAt;
 	private $avatar;
 	private $role;
 
@@ -60,15 +60,16 @@ final class User extends Entity
 		return $this;
 	}
 
-	public function getCreationdate()
+	public function getCreatedAt()
 	{
-		$formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+		$formattedDate = $this->createdAt->format("d/m/Y, H:i:s");
 		return $formattedDate;
+		// return $this->createdAt;
 	}
 
-	public function setCreationdate($date)
+	public function setCreatedAt($date)
 	{
-		$this->creationdate = new \DateTime($date);
+		$this->createdAt = new \DateTime($date);
 		return $this;
 	}
 
