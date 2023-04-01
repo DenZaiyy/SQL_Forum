@@ -15,6 +15,10 @@ $(document).ready(function () {
         $("#dropdown").toggleClass("active");
     });
 
+    $("#avatar").change(function () {
+        $("#avatar-text").val(this.files[0].name);
+    });
+
     function fetchData() {
         var btnLike = $("#nbLikes").val();
 
