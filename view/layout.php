@@ -13,70 +13,72 @@
     <link rel="shortcut icon" href="public/img/logo.png" type="image/x-icon">
     <title><?= $title ?></title>
 </head>
-
-<body>
-    <!-- c'est ici que les messages (erreur ou succès) s'affichent-->
-    <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
-    <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
-    <div class="container">
-        <header>
-            <nav>
-                <a href="index.php">
-                    <div class="logo">
-                        <img src="public/img/logo.png" alt="logo of forum" width="50" height="50">
-                        <p>FORUM</p>
-                    </div>
-                </a>
-                <div class="searchBar">
-                    <input type="search" name="searchBar">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+<?php
+if (App\Session::getUser()) {
+    echo '<body>';
+} else {
+    echo '<body class="bg-img">';
+}
+?>
+<div class="container">
+    <header>
+        <nav>
+            <a href="index.php">
+                <div class="logo">
+                    <img src="public/img/logo.png" alt="logo of forum" width="50" height="50">
+                    <p>FORUM</p>
                 </div>
+            </a>
+            <div class="searchBar">
+                <input type="search" name="searchBar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <?php
+            if (App\Session::getUser()) {
+            ?>
                 <div class="profil" id="profil">
                     <i class="fa-solid fa-house-user fa-2xl"></i>
                     <div class="dropdown-user-menu" id="dropdown">
-                        <?php
+                        <a href="">
+                            <div class="user-info">
+                                <img src="<?= App\Session::getUser()->getAvatar() ?>" alt="image of <?= App\Session::getUser()->getPseudo() ?>" height="50" width="50">
+                                <strong><?= App\Session::getUser()->getPseudo() ?></strong>
+                            </div>
+                        </a>
+                        <div class="links">
+                            <a href="">Profile</a>
+                            <a href="index.php?ctrl=security&action=settings">Settings</a>
+                            <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
+                            <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
+                            <a href="index.php?ctrl=security&action=listUsers">Voir la liste des gens</a>
 
-                        if (App\Session::getUser()) {
-                        ?>
-                            <a href="">
-                                <div class="user-info">
-                                    <img src="public/img/default-user.png" alt="image of user" height="50" width="50">
-                                    <strong><?= App\Session::getUser()->getPseudo() ?></strong>
-                                </div>
-                            </a>
-                            <div class="links">
-                                <a href="">Profile</a>
-                                <a href="">Settings</a>
-                                <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
-                                <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
-                            </div>
-                            <div class="btn-disconnect">
-                                <a href="index.php?ctrl=security&action=logout"><i class="fa-solid fa-right-from-bracket"></i> Disconnect</a>
-                            </div>
-                        <?php } else { ?>
-                            <div class="links">
-                                <a href="index.php?ctrl=security&action=registerForm"><i class="fa-solid fa-user-plus"></i> Register</a>
-                                <a href="index.php?ctrl=security&action=loginForm"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                            </div>
-                        <?php } ?>
+                            <?php
+                            // if (App\Session::isAdmin()) {
+                            ?>
+                            <!-- <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a> -->
+                            <?php
+                            // }
+                            ?>
+                        </div>
+                        <div class="btn-disconnect">
+                            <a href="index.php?ctrl=security&action=logout"><i class="fa-solid fa-right-from-bracket"></i> Disconnect</a>
+                        </div>
+
                     </div>
                 </div>
-            </nav>
-            <!-- <nav>
-                <div id="nav-left">
-                    <a href="/">Accueil</a>
-                    <?php
-                    // if (App\Session::isAdmin()) {
-                    ?>
-                        <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
-
-                    <?php
-                    // }
-                    ?>
+            <?php } else {
+            ?>
+                <div>
                 </div>
-            </nav> -->
-        </header>
+            <?php } ?>
+        </nav>
+    </header>
+    <?php
+
+    if (App\Session::getUser()) {
+    ?>
         <div class="content-flex">
+
             <aside>
                 <div class="themes">
                     <h3>Category</h3>
@@ -86,7 +88,7 @@
                                 <a href="index.php?ctrl=forum&action=detailCategory&id=<?= $category->getId() ?>">
                                     <?= $category->getLabel(); ?>
                                 </a>
-                                <a href="">
+                                <a href="index.php?ctrl=forum&action=addTopicForm&id=<?= $category->getId() ?>">
                                     <i class="fa-solid fa-plus"></i>
                                 </a>
                             </div>
@@ -94,43 +96,55 @@
                     </div>
                 </div>
             </aside>
+
+
             <main id="forum">
+                <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
+                <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
                 <?= $page ?>
             </main>
         </div>
+    <?php } else {
+    ?>
+        <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
+        <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
+        <main id="forum" class="main-content">
+            <?= $page ?>
+        </main>
+    <?php
+    } ?>
 
-
-        <footer>
-            <?php $date = date('Y'); ?>
-            <div class="notices">
-                <div class="lNotice">
-                    <a href="">Legal notice</a>
-                </div>
-                <div class="rules">
-                    <a href="/home/forumRules.html">Forum rules</a>
-                </div>
+    <footer>
+        <?php $date = date('Y'); ?>
+        <div class="notices">
+            <div class="lNotice">
+                <a href="">Legal notice</a>
             </div>
-            <p>&copy; <?= $date ?> - Created by <strong><a href="https://github.com/DenZaiyy/" target="_blank">GRISCHKO Kevin</a></strong></p>
-            <div class="socials">
-                <div class="fb">
-                    <a href="" target="_blank">
-                        <i class="fa-brands fa-square-facebook"></i>
-                    </a>
-                </div>
-                <div class="twitter">
-                    <a href="" target="_blank">
-                        <i class="fa-brands fa-square-twitter"></i>
-                    </a>
-                </div>
-                <div class="insta">
-                    <a href="" target="_blank">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                </div>
+            <div class="rules">
+                <a href="/home/forumRules.html">Forum rules</a>
             </div>
-            <!-- <button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois -->
-        </footer>
-    </div>
+        </div>
+        <p>&copy; <?= $date ?> - Created by <strong><a href="https://github.com/DenZaiyy/" target="_blank">GRISCHKO Kevin</a></strong></p>
+        <div class="socials">
+            <div class="fb">
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-square-facebook"></i>
+                </a>
+            </div>
+            <div class="twitter">
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-square-twitter"></i>
+                </a>
+            </div>
+            <div class="insta">
+                <a href="" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+        <!-- <button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois -->
+    </footer>
+</div>
 </body>
 
 </html>

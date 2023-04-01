@@ -1,37 +1,36 @@
 <?php
 $topics = $result["data"]['topics'];
+//if user are not connected, redirect to login page
+if (!App\Session::getUser()) {
+    header('Location: index.php?ctrl=security&action=login');
+} else {
+
 ?>
 
-<h1>The most 5 recents posts</h1>
-<?php
-foreach ($topics as $topic) {
-?>
+    <h1>The most 5 recents posts</h1>
+    <?php
+    foreach ($topics as $topic) {
+    ?>
 
-    <div class="card-topic">
-        <div class="infos">
-            <h4>posted by : <?= $topic->getUser()->getPseudo() . " - " . $topic->getDate() ?></h4>
-        </div>
-        <div class="preview">
-            <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">
-                <p><?= $topic->getTitle() ?></p>
-            </a>
-        </div>
-        <div class="btns">
-            <div class="like">
-                <a href="">
-                    <i class="fa-regular fa-thumbs-up"></i>
-                    Like
+        <div class="card-topic">
+            <div class="infos">
+                <h4>posted by : <?= $topic->getUser()->getPseudo() . " - " . $topic->getDate() ?></h4>
+            </div>
+            <div class="preview">
+                <h3>Title:</h3>
+                <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">
+                    <p><?= $topic->getTitle() ?></p>
                 </a>
             </div>
-            <div class="comments">
-                <a href="">
+            <div class="btns">
+                <?= $topic->getLikes() ? "<div class='like'>(" . $topic->getLikes() . ") <i class='fa-regular fa-thumbs-up'></i></div>" : "" ?>
+                <div class="comments">
                     <i class="fa-solid fa-comment"></i>
-                    Comment
-                </a>
+                </div>
             </div>
         </div>
-    </div>
 
 <?php
+    }
+    $title = "Home Page";
 }
-$title = "Home Page";
