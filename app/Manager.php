@@ -24,7 +24,7 @@ abstract class Manager
             "";
 
         $sql = "SELECT *
-                    FROM " . $this->tableName . " a
+                    FROM `" . $this->tableName . "` a
                     " . $orderQuery;
 
         return $this->getMultipleResults(
@@ -37,7 +37,7 @@ abstract class Manager
     {
 
         $sql = "SELECT *
-                    FROM " . $this->tableName . " a
+                    FROM `" . $this->tableName . "` a
                     WHERE a.id_" . $this->tableName . " = :id
                     ";
 

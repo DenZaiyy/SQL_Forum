@@ -29,12 +29,6 @@ class Session
         return $msg;
     }
 
-    public function hasRole($role)
-    {
-        if ($role === "ROLE_USER") {
-        }
-    }
-
     /**
      *   met un user dans la session (pour le maintenir connecté)
      */
