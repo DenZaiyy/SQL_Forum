@@ -7,26 +7,14 @@ if ($topics) { ?>
     ?>
         <div class="card-topic">
             <div class="infos">
-                <h4>posted by : <?= $topic->getUser()->getPseudo() . " - " . $topic->getDate() ?></h4>
+                <h3>Posted at : <?= $topic->getDate() ?></h3>
+                <h3>By : <?= $topic->getUser()->getPseudo() ?></h3>
             </div>
             <div class="preview">
+                <h3>Title:</h3>
                 <a href="index.php?ctrl=forum&action=detailTopic&id=<?= $topic->getId() ?>">
                     <p><?= $topic->getTitle() ?></p>
                 </a>
-            </div>
-            <div class="btns">
-                <div class="like">
-                    <a href="">
-                        <i class="fa-regular fa-thumbs-up"></i>
-                        Like
-                    </a>
-                </div>
-                <div class="comments">
-                    <a href="">
-                        <i class="fa-solid fa-comment"></i>
-                        Comment
-                    </a>
-                </div>
             </div>
         </div>
     <?php

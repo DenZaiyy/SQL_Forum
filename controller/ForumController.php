@@ -58,6 +58,14 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    //function for return to the form to add a new topic
+    public function addTopicForm()
+    {
+        return [
+            "view" => VIEW_DIR . "topic/addTopic.php"
+        ];
+    }
+
     //List of categories
     public function listCategories()
     {
@@ -79,39 +87,140 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
-    //Form for adding new comment to topic
+    //function to add new comment to a topic
     public function addComment()
     {
-        return [
-            "view" => VIEW_DIR . "topic/addComment.php"
-        ];
+        if (!empty($_POST)) {
+            $postManager = new PostManager();
+
+            $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if ($message) {
+                $postManager->add(
+                    [
+                        "message" => $message,
+                        "date" => date("Y-m-d H:i:s"),
+                        "topic_id" => $_GET['id'],
+                        "user_id" => SESSION::getUser()->getId(),
+                    ]
+                );
+            }
+
+            $this->redirectTo("forum", "detailTopic", $_GET['id']);
+        } else {
+            $this->redirectTo("forum", "detailTopic", $_GET['id']);
+            SESSION::addFlash("error", "Veuillez remplir tous les champs");
+        }
+    }
+
+    //function to add new topic with first message
+    public function addTopic()
+    {
+        if (!empty($_POST)) {
+            $topicManager = new TopicManager();
+            $postManager = new PostManager();
+
+            //filtre les données
+            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if ($title && $message) {
+                $id = $topicManager->add(
+                    [
+                        "title" => $title,
+                        "user_id" => SESSION::getUser()->getId(),
+                        "date" => date("Y-m-d H:i:s"),
+                        "category_id" => $_GET['id'],
+                    ]
+                );
+
+                $postManager->add(
+                    [
+                        "message" => $message,
+                        "date" => date("Y-m-d H:i:s"),
+                        "topic_id" => $id,
+                        "user_id" => SESSION::getUser()->getId(),
+                    ]
+                );
+            }
+
+            $this->redirectTo("forum", "detailTopic", $id);
+            SESSION::addFlash("success", "Votre sujet a bien été ajouté");
+        } else {
+            $this->redirectTo("forum", "addTopicForm");
+            SESSION::addFlash("error", "Veuillez remplir tous les champs");
+        }
     }
 
     //Function like for topics
     public function like()
     {
-        $likeManager = new LikeManager();
+        if (!empty($_POST)) {
+            $likeManager = new LikeManager();
 
-        $user = SESSION::getUser()->getId();
-        $topic = $_GET['id'];
+            //find id of connected user in session
+            $user = SESSION::getUser()->getId();
 
-        $userLiked = $likeManager->findOneByPseudo($user);
-        $topicLiked = $likeManager->findOneByTopic($topic);
+            //get the id of the topic
+            $topic = $_GET['id'];
 
-        if (!$userLiked || !$topicLiked) {
-            $likeManager->add(
-                [
-                    "user_id" => $user,
-                    "topic_id" => $topic,
-                ]
-            );
+            //look if there is a dublicate of the user and the topic
+            $userLike = $likeManager->findOneByPseudo($user, $topic);
 
-            $this->redirectTo("forum", "detailTopic", $topic);
-        } else {
-            $likeManager->deleteLike($topic, $user);
-            $this->redirectTo("forum", "detailTopic", $topic);
+            if (!$userLike) {
+                $likeManager->add(
+                    [
+                        "user_id" => $user,
+                        "topic_id" => $topic,
+                    ]
+                );
+
+                $this->redirectTo("forum", "detailTopic", $topic);
+            } else {
+                $likeManager->deleteLike($topic, $user);
+                $this->redirectTo("forum", "detailTopic", $topic);
+            }
+
+            $likeManager->updateLikes($topic);
         }
 
-        $likeManager->updateLikes($topic);
+        $this->redirectTo("forum", "listTopics");
+    }
+
+    //function to delete a topic
+    public function deleteTopic($id)
+    {
+        $topicManager = new TopicManager();
+        $postManager = new PostManager();
+        $likeManager = new LikeManager();
+
+        $postManager->deleteAllPost($id);
+        $likeManager->deleteAllLike($id);
+        $topicManager->delete($id);
+
+        $this->redirectTo("forum", "listTopics");
+        SESSION::addFlash("success", "Votre topic a bien été supprimé");
+    }
+
+    //function to lock a topic
+    public function lockTopic($id)
+    {
+        $topicManager = new TopicManager();
+
+        $topicManager->lockTopic($id);
+
+        $this->redirectTo("forum", "listTopics");
+        SESSION::addFlash("success", "Votre topic a bien été verrouillé");
+    }
+
+    //function to unlock a topic
+    public function unlockTopic($id)
+    {
+        $topicManager = new TopicManager();
+
+        $topicManager->unlockTopic($id);
+
+        $this->redirectTo("forum", "listTopics");
+        SESSION::addFlash("success", "Votre topic a bien été déverrouillé");
     }
 }

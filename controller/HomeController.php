@@ -7,6 +7,7 @@ use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\UserManager;
 use Model\Managers\TopicManager;
+use Model\Managers\PostManager;
 use Model\Managers\CategoryManager;
 
 class HomeController extends AbstractController implements ControllerInterface
@@ -15,31 +16,22 @@ class HomeController extends AbstractController implements ControllerInterface
     public function index()
     {
 
-        $topicManager = new TopicManager();
+        //if user not connected, redirect to login page
+        if (!Session::getUser()) {
+            $this->redirectTo("security", "loginForm");
+        } else {
+            $topicManager = new TopicManager();
 
-        return [
-            "view" => VIEW_DIR . "home.php",
-            "data" => [
-                "topics" => $topicManager->findLastFiveTopics(["date", "DESC"])
-            ]
-        ];
+            return [
+                "view" => VIEW_DIR . "home.php",
+                "data" => [
+                    "topics" => $topicManager->findLastFiveTopics(["date", "DESC"]),
+                ]
+            ];
+        }
     }
 
-    public function users()
-    {
-        $this->restrictTo("ROLE_USER");
-
-        $manager = new UserManager();
-        $users = $manager->findAll(['registerdate', 'DESC']);
-
-        return [
-            "view" => VIEW_DIR . "security/users.php",
-            "data" => [
-                "users" => $users
-            ]
-        ];
-    }
-
+    /* TODO: add rules and notice */
     public function forumRules()
     {
         return [

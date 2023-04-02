@@ -44,4 +44,31 @@ class TopicManager extends Manager
             $this->className
         );
     }
+
+    //function delete topic
+    public function delete($id)
+    {
+        $sql = "DELETE FROM `" . $this->tableName . "` t
+                WHERE t.id_topic = :id";
+
+        return DAO::delete($sql, ['id' => $id]);
+    }
+
+    public function lockTopic($id)
+    {
+        $sql = "UPDATE `" . $this->tableName . "` 
+                SET `lock` = 1
+                WHERE id_topic = :id";
+
+        return DAO::update($sql, ['id' => $id]);
+    }
+
+    public function unlockTopic($id)
+    {
+        $sql = "UPDATE `" . $this->tableName . "` 
+                SET `lock` = 0
+                WHERE id_topic = :id";
+
+        return DAO::update($sql, ['id' => $id]);
+    }
 }

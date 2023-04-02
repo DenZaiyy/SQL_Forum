@@ -8,54 +8,43 @@ use App\DAO;
 class LikeManager extends Manager
 {
 
-    protected $className = "Model\Entities\Like";
-    protected $tableName = "like";
+	protected $className = "Model\Entities\Like";
+	protected $tableName = "like";
 
 
-    public function __construct()
-    {
-        parent::connect();
-    }
+	public function __construct()
+	{
+		parent::connect();
+	}
 
-    public function findOneByPseudo($user)
-    {
-        $sql = "SELECT * 
+	public function findOneByPseudo($user, $topic)
+	{
+		$sql = "SELECT * 
                 FROM `" . $this->tableName . "` u 
-                WHERE u.user_id = ?";
+                WHERE u.user_id = ?
+                AND u.topic_id = ?";
 
-        return $this->getOneOrNullResult(
-            DAO::select($sql, [$user]),
-            $this->className
-        );
-    }
+		return $this->getOneOrNullResult(
+			DAO::select($sql, [$user, $topic], false),
+			$this->className
+		);
+	}
 
-    public function findOneByTopic($topic)
-    {
-        $sql = "SELECT * 
-                FROM `" . $this->tableName . "` u 
-                WHERE u.topic_id = ?";
-
-        return $this->getOneOrNullResult(
-            DAO::select($sql, [$topic]),
-            $this->className
-        );
-    }
-
-    public function deleteLike($topicID, $userID)
-    {
-        $sql = "DELETE FROM `" . $this->tableName . "` 
+	public function deleteLike($topicID, $userID)
+	{
+		$sql = "DELETE FROM `" . $this->tableName . "` 
                 WHERE topic_id = :topic
                 AND user_id = :user";
 
-        return DAO::delete($sql, [
-            "topic" => $topicID,
-            "user" => $userID
-        ]);
-    }
+		return DAO::delete($sql, [
+			"topic" => $topicID,
+			"user" => $userID
+		]);
+	}
 
-    public function updateLikes($topicID)
-    {
-        $sql = "UPDATE topic t
+	public function updateLikes($topicID)
+	{
+		$sql = "UPDATE topic t
                 SET likes = (
                     SELECT COUNT(*) 
                     FROM `" . $this->tableName . "` l 
@@ -63,21 +52,30 @@ class LikeManager extends Manager
                 )
                 WHERE t.id_topic = ?";
 
-        return $this->getMultipleResults(
-            DAO::select($sql, [$topicID, $topicID], true),
-            $this->className
-        );
-    }
+		return $this->getMultipleResults(
+			DAO::select($sql, [$topicID, $topicID], true),
+			$this->className
+		);
+	}
 
-    public function countLikes($topicID)
-    {
-        $sql = "SELECT COUNT(*)
-                FROM `" . $this->tableName . "` l 
-                WHERE l.topic_id = ?";
+	// public function countLikes($topicID)
+	// {
+	//     $sql = "SELECT COUNT(*)
+	//             FROM `" . $this->tableName . "` l 
+	//             WHERE l.topic_id = ?";
 
-        return $this->getOneOrNullResult(
-            DAO::select($sql, [$topicID]),
-            $this->className
-        );
-    }
+	//     return $this->getOneOrNullResult(
+	//         DAO::select($sql, [$topicID]),
+	//         $this->className
+	//     );
+	// }
+
+	//function delete all like from id topic
+	public function deleteAllLike($id)
+	{
+		$sql = "DELETE FROM `" . $this->tableName . "` l
+				WHERE l.topic_id = :id";
+
+		return DAO::delete($sql, ['id' => $id]);
+	}
 }
