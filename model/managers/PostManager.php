@@ -39,12 +39,25 @@ class PostManager extends Manager
 	{
 		$sql = "SELECT * FROM message m, topic t
 				WHERE m.topic_id = t.id_topic
-				AND m.topic_id = :id";
+				AND m.topic_id = :id
+				ORDER BY m.date ASC
+				LIMIT 1";
 
 		return $this->getOneOrNullResult(
 			DAO::select($sql, ['id' => $id], false),
 			$this->className
 		);
+	}
+
+	public function updateMessagePost($message, $topicID)
+	{
+		$sql = "UPDATE `" . $this->tableName . "` m
+				SET message = :message
+				WHERE topic_id = :topicID
+				ORDER BY m.date ASC
+				LIMIT 1";
+
+		return DAO::update($sql, ['message' => $message, 'topicID' => $topicID]);
 	}
 
 	public function deletePost($id)
