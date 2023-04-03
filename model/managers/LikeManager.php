@@ -42,33 +42,16 @@ class LikeManager extends Manager
 		]);
 	}
 
-	public function updateLikes($topicID)
+	public function countLikes($topicID)
 	{
-		$sql = "UPDATE topic t
-                SET likes = (
-                    SELECT COUNT(*) 
-                    FROM `" . $this->tableName . "` l 
-                    WHERE l.topic_id = ?
-                )
-                WHERE t.id_topic = ?";
+		$sql = "SELECT COUNT(*)
+	            FROM `" . $this->tableName . "` l 
+	            WHERE l.topic_id = ?";
 
-		return $this->getMultipleResults(
-			DAO::select($sql, [$topicID, $topicID], true),
-			$this->className
+		return $this->getSingleScalarResult(
+			DAO::select($sql, [$topicID], false)
 		);
 	}
-
-	// public function countLikes($topicID)
-	// {
-	//     $sql = "SELECT COUNT(*)
-	//             FROM `" . $this->tableName . "` l 
-	//             WHERE l.topic_id = ?";
-
-	//     return $this->getOneOrNullResult(
-	//         DAO::select($sql, [$topicID]),
-	//         $this->className
-	//     );
-	// }
 
 	//function delete all like from id topic
 	public function deleteAllLike($id)
