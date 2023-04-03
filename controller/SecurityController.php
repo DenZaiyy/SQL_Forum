@@ -74,7 +74,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                             "mail" => $email,
                             "password" => $hash,
                             "avatar" => $avatar,
-                            "role" => '"ROLE_USER"'
+                            "role" => json_encode("ROLE_USER")
                         ])) {
                             $this->redirectTo("security", "loginForm");
                             SESSION::addFlash("success", "Vous êtes bien inscrit");
@@ -106,26 +106,26 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 $manager = new UserManager();
                 $user = $manager->findOneByPseudo($pseudo);
 
-                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $hash = $user->getPassword();
 
                 if ($user) {
                     if (password_verify($password, $hash)) {
-                        $manager->connectUser($pseudo, $password);
+                        $manager->connectUser($pseudo, $hash);
                         SESSION::setUser($user);
 
                         SESSION::addFlash("success", "Bravo " . SESSION::getUser()->getPseudo() . ", vous êtes connecté!");
                         $this->redirectTo("forum", "listTopics");
                     } else {
-                        $this->redirectTo("security", "loginForm");
                         SESSION::addFlash("error", "Une erreur est survenue lors de la connexion");
+                        $this->redirectTo("security", "loginForm");
                     }
                 } else {
-                    $this->redirectTo("security", "loginForm");
                     SESSION::addFlash("error", "Identifiant incorrect");
+                    $this->redirectTo("security", "loginForm");
                 }
             } else {
-                $this->redirectTo("security", "loginForm");
                 SESSION::addFlash("error", "Identifiant incorrect");
+                $this->redirectTo("security", "loginForm");
             }
         }
     }
@@ -134,7 +134,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function logout()
     {
         unset($_SESSION['user']);
-        session_destroy();
+        // session_destroy();
         $this->redirectTo("security", "loginForm");
     }
 
