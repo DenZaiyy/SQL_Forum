@@ -11,10 +11,9 @@ if (!App\Session::getUser()) {
     <?php
     foreach ($topics as $topic) {
     ?>
-
         <div class="card-topic">
             <div class="infos">
-                <h4>posted by : <?= $topic->getUser()->getPseudo() . " - " . $topic->getDate() ?></h4>
+                <h4>posted by : <a href="index.php?ctrl=forum&action=detailUser&id=<?= $topic->getUser()->getId() ?>"><?= $topic->getUser()->getPseudo() . "</a> - " . $topic->getDate() ?></h4>
             </div>
             <div class="preview">
                 <h3>Title:</h3>
@@ -29,7 +28,6 @@ if (!App\Session::getUser()) {
                 </div>
             </div>
         </div>
-
 <?php
     }
     $title = "Home Page";
