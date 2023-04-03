@@ -152,6 +152,49 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
+    //function for the form to edit a topic
+    public function editForm()
+    {
+        $topicManager = new TopicManager();
+        $postManager = new PostManager();
+
+        return [
+            "view" => VIEW_DIR . "topic/editTopic.php",
+            "data" => [
+                "topic" => $topicManager->findOneById($_GET['id']),
+                "firstMessage" => $postManager->findFirstById($_GET['id'])
+            ]
+        ];
+    }
+
+
+    //function to edit a topic
+    public function editTopic($id)
+    {
+        $topicManager = new TopicManager();
+        $postManager = new PostManager();
+
+        if (!empty($_POST)) {
+            $category = filter_input(INPUT_POST, "category", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if ($category && $title && $message) {
+                $topicManager->updateTopic($title, $category, $id);
+
+                $postManager->updateMessagePost($message, $id);
+            }
+
+            $this->redirectTo("forum", "detailTopic", $id);
+            SESSION::addFlash("success", "Votre sujet a bien été modifié");
+        } else {
+            $this->redirectTo("forum", "detailTopic", $id);
+            SESSION::addFlash("error", "Veuillez remplir tous les champs");
+        }
+    }
+
+
+
     //Function like for topics
     public function like()
     {
@@ -209,7 +252,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
         $topicManager->lockTopic($id);
 
-        $this->redirectTo("forum", "listTopics");
+        $this->redirectTo("forum", "detailTopic", $id);
         SESSION::addFlash("success", "Votre topic a bien été verrouillé");
     }
 
@@ -220,7 +263,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
         $topicManager->unlockTopic($id);
 
-        $this->redirectTo("forum", "listTopics");
+        $this->redirectTo("forum", "detailTopic", $id);
         SESSION::addFlash("success", "Votre topic a bien été déverrouillé");
     }
 }
