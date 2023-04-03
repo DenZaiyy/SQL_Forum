@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
@@ -195,6 +196,9 @@ header nav .profil .active {
 .content-flex main .card-topic .infos {
   margin-bottom: 15px;
 }
+.content-flex main .card-topic .infos a:hover {
+  text-decoration: underline;
+}
 .content-flex main .card-topic .preview {
   margin-bottom: 20px;
 }
@@ -225,10 +229,7 @@ header nav .profil .active {
 .content-flex main .card-topic .btns {
   display: flex;
 }
-.content-flex main .card-topic .btns .like {
-  margin-right: 15px;
-}
-.content-flex main .card-topic .btns .like button {
+.content-flex main .card-topic .btns .like #nbLikes {
   padding: 10px;
   cursor: pointer;
   border-radius: 50px;
@@ -236,6 +237,9 @@ header nav .profil .active {
   text-align: center;
   color: var(--color-white);
   border: none;
+}
+.content-flex main .card-topic .btns .like .liked {
+  background-color: #768AC0;
 }
 .content-flex main .card-comment {
   background-color: var(--body-response-color);
@@ -277,11 +281,66 @@ header nav .profil .active {
 .content-flex main .card-comment .infos .createBy {
   margin-left: 10px;
 }
+.content-flex main .card-comment .infos .createBy a {
+  display: block;
+  width: -moz-max-content;
+  width: max-content;
+}
+.content-flex main .card-comment .infos .createBy a:hover {
+  text-decoration: underline;
+}
 .content-flex main .card-comment hr {
   text-align: center;
   margin: 10px 0;
 }
 .content-flex main .card-comment .preview {
+  margin-top: 10px;
+}
+.content-flex main .card-user {
+  background-color: var(--body-response-color);
+  padding: 15px;
+  border-radius: 10px;
+  width: 80%;
+  margin-top: 20px;
+  position: relative;
+}
+.content-flex main .card-user .status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.content-flex main .card-user .status button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.content-flex main .card-user .status button i {
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.content-flex main .card-user .status button i:hover {
+  color: red;
+  transition: all 0.3s ease-in-out;
+}
+.content-flex main .card-user .infos {
+  display: flex;
+  align-items: center;
+}
+.content-flex main .card-user .infos .img {
+  height: 50px;
+}
+.content-flex main .card-user .infos .img img {
+  width: 50px;
+  height: 50px;
+}
+.content-flex main .card-user .infos .createBy {
+  margin-left: 10px;
+}
+.content-flex main .card-user hr {
+  text-align: center;
+  margin: 10px 0;
+}
+.content-flex main .card-user .preview {
   margin-top: 10px;
 }
 .content-flex main .form-comment {
@@ -445,6 +504,110 @@ header nav .profil .active {
   margin: 10px;
   padding: 50px;
   text-align: center;
+}
+.content-flex main .settings {
+  width: 100%;
+}
+.content-flex main .settings .user-infos form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.content-flex main .settings .user-infos form .inputs {
+  background-color: var(--icon-topic-color-2);
+  border-radius: 5px;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+.content-flex main .settings .user-infos form .inputs input {
+  margin-top: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--head-color);
+  border: 1px solid var(--head-color);
+  color: white;
+  transition: all 0.2s linear;
+}
+.content-flex main .settings .user-infos form .inputs input:focus {
+  outline: none;
+  border: 1px solid var(--color-white);
+  transition: all 0.2s linear;
+}
+.content-flex main .settings .user-infos form .inputs .pseudo, .content-flex main .settings .user-infos form .inputs .email, .content-flex main .settings .user-infos form .inputs .avatar {
+  display: flex;
+  flex-direction: column;
+}
+.content-flex main .settings .user-infos form button {
+  margin-top: 15px;
+  align-items: end;
+  padding: 10px 25px;
+  border-radius: 5px;
+  color: white;
+  background-color: #251F44;
+  border: 1px solid #251F44;
+  cursor: pointer;
+}
+.content-flex main .settings .user-infos form button:hover {
+  background-color: var(--color-white);
+  color: #251F44;
+  border: 1px solid #251F44;
+  transition: all 0.2s linear;
+}
+.content-flex main .settings .password {
+  margin-top: 20px;
+}
+.content-flex main .settings .password form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.content-flex main .settings .password form .inputs {
+  background-color: var(--icon-topic-color-2);
+  border-radius: 5px;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+.content-flex main .settings .password form .inputs input {
+  margin-top: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--head-color);
+  border: 1px solid var(--head-color);
+  color: white;
+  transition: all 0.2s linear;
+}
+.content-flex main .settings .password form .inputs input:focus {
+  outline: none;
+  border: 1px solid var(--color-white);
+  transition: all 0.2s linear;
+}
+.content-flex main .settings .password form .inputs .current, .content-flex main .settings .password form .inputs .new-pwd, .content-flex main .settings .password form .inputs .confirm-new-pwd {
+  display: flex;
+  flex-direction: column;
+}
+.content-flex main .settings .password form button {
+  margin-top: 15px;
+  align-items: end;
+  padding: 10px 25px;
+  border-radius: 5px;
+  color: white;
+  background-color: #251F44;
+  border: 1px solid #251F44;
+  cursor: pointer;
+}
+.content-flex main .settings .password form button:hover {
+  background-color: var(--color-white);
+  color: #251F44;
+  border: 1px solid #251F44;
+  transition: all 0.2s linear;
 }
 
 .main-content {
