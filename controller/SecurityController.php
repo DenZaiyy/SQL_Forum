@@ -114,7 +114,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         SESSION::setUser($user);
 
                         SESSION::addFlash("success", "Bienvenue " . SESSION::getUser()->getPseudo() . " !");
-                        $this->redirectTo("forum", "listTopics");
+                        $this->redirectTo("home", "index");
                     } else {
                         SESSION::addFlash("error", "Une erreur est survenue lors de la connexion");
                         $this->redirectTo("security", "loginForm");
@@ -168,32 +168,43 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $newPassword = filter_input(INPUT_POST, 'newPassword', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //new password
             $confirmNewPassword = filter_input(INPUT_POST, 'newPasswordConfirm', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //confirm new password
 
-            //if all inputs have validate data
-            if ($password && $newPassword && $confirmNewPassword) {
-                $manager = new UserManager();
+            $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS); //token
 
-                $user = SESSION::getUser(); //find user by pseudo (current user
+            if (SESSION::checkToken($token)) {
 
-                $hash = $user->getPassword(); //hash current password
+                //if all inputs have validate data
+                if ($password && $newPassword && $confirmNewPassword) {
+                    $manager = new UserManager();
 
-                if (password_verify($password, $hash)) {
-                    if ($newPassword == $confirmNewPassword) {
-                        $hash = password_hash($newPassword, PASSWORD_DEFAULT); //hash new password
+                    $user = SESSION::getUser(); //find user by pseudo (current user
 
-                        $manager->updatePassword($user->getId(), $hash); //update password
+                    $hash = $user->getPassword(); //hash current password
 
-                        SESSION::addFlash("success", "Votre mot de passe a bien été modifié");
-                        $this->redirectTo("security", "loginForm");
+                    if (password_verify($password, $hash)) {
+                        if ($newPassword == $confirmNewPassword) {
+                            $hash = password_hash($newPassword, PASSWORD_DEFAULT); //hash new password
+
+                            $manager->updatePassword($user->getId(), $hash); //update password
+
+                            unset($_SESSION['_token']);
+
+                            SESSION::addFlash("success", "Votre mot de passe a bien été modifié");
+                            $this->redirectTo("security", "loginForm");
+                        } else {
+                            unset($_SESSION['_token']);
+                            SESSION::addFlash("error", "Les mots de passe ne correspondent pas");
+                            $this->redirectTo("security", "loginForm");
+                        }
                     } else {
-                        SESSION::addFlash("error", "Les mots de passe ne correspondent pas");
+                        SESSION::addFlash("error", "Mot de passe incorrect");
                         $this->redirectTo("security", "loginForm");
                     }
                 } else {
-                    SESSION::addFlash("error", "Mot de passe incorrect");
+                    SESSION::addFlash("error", "Veuillez remplir tous les champs");
                     $this->redirectTo("security", "loginForm");
                 }
             } else {
-                SESSION::addFlash("error", "Veuillez remplir tous les champs");
+                SESSION::addFlash("error", "Une erreur est survenue");
                 $this->redirectTo("security", "loginForm");
             }
         }
@@ -205,14 +216,26 @@ class SecurityController extends AbstractController implements ControllerInterfa
         $this->restrictTo("ROLE_ADMIN");
 
         if (!empty($_POST)) {
+
             $id = $_GET['id'];
             $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $token = filter_input(INPUT_POST, '_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $manager = new UserManager();
+            if (SESSION::checkToken($token)) {
+                $manager = new UserManager();
 
-            $manager->updateRole($id, $role);
+                $manager->updateRole($id, $role);
 
-            SESSION::addFlash("success", "Le rôle a bien été modifié");
+                unset($_SESSION['_token']);
+
+                SESSION::addFlash("success", "Le rôle a bien été modifié");
+                $this->redirectTo("security", "listUsers");
+            } else {
+                SESSION::addFlash("error", "Une erreur est survenue");
+                $this->redirectTo("security", "loginForm");
+            }
+        } else {
+            SESSION::addFlash("error", "Une erreur est survenue");
             $this->redirectTo("security", "listUsers");
         }
     }
@@ -224,23 +247,34 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_EMAIL);
             $avatar = PUBLIC_DIR . "img/default-avatar.png";
 
-            $id = SESSION::getUser()->getId();
+            $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($pseudo && $email) {
-                $manager = new UserManager();
-                $user = $manager->findOneByPseudo($pseudo);
+            if (SESSION::checkToken($token)) {
+                $id = SESSION::getUser()->getId();
 
-                if (!$user) {
-                    $manager->updateInfos($id, $pseudo, $email, $avatar);
+                if ($pseudo && $email) {
+                    $manager = new UserManager();
+                    $user = $manager->findOneByPseudo($pseudo);
 
-                    SESSION::addFlash("success", "Vos informations ont bien été modifiées, veuillez vous reconncter");
-                    $this->redirectTo("security", "logout");
+                    if (!$user) {
+                        $manager->updateInfos($id, $pseudo, $email, $avatar);
+
+                        unset($_SESSION['_token']);
+
+                        SESSION::addFlash("success", "Vos informations ont bien été modifiées, veuillez vous reconncter");
+                        $this->redirectTo("security", "logout");
+                    } else {
+                        unset($_SESSION['_token']);
+
+                        SESSION::addFlash("error", "Pseudo déjà utilisé");
+                        $this->redirectTo("security", "settings");
+                    }
                 } else {
-                    SESSION::addFlash("error", "Pseudo déjà utilisé");
+                    SESSION::addFlash("error", "Veuillez remplir tous les champs");
                     $this->redirectTo("security", "settings");
                 }
             } else {
-                SESSION::addFlash("error", "Veuillez remplir tous les champs");
+                SESSION::addFlash("error", "Une erreur est survenue");
                 $this->redirectTo("security", "settings");
             }
         }

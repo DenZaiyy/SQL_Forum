@@ -35,6 +35,9 @@ class Session
     public static function setUser($user)
     {
         $_SESSION["user"] = $user;
+        if (!$user or empty($user)) {
+            unset($_SESSION['_token']);
+        }
     }
 
     public static function getUser()
@@ -48,5 +51,24 @@ class Session
             return true;
         }
         return false;
+    }
+
+    public static function getToken()
+    {
+        return (isset($_SESSION['_token'])) ? $_SESSION['_token'] : false;
+    }
+
+    public static function checkToken($token)
+    {
+        $result = false;
+        $_token = self::getToken();
+
+        if ($_token) {
+            $result = ($token == $_token);
+            if (!$result) {
+                self::setUser(null);
+            }
+        }
+        return $result;
     }
 }

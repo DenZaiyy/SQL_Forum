@@ -19,6 +19,7 @@ foreach ($users as $user) {
             <p><strong>Role:</strong> <?= $user->getRole() == json_encode("ROLE_ADMIN") ? "Admin" : "User" ?></p>
             <p><strong>Change Role:</strong>
             <form action="index.php?ctrl=security&action=updateRole&id=<?= $user->getId() ?>" method="post">
+                <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                 <select name="role">
                     <option value="ROLE_USER">User</option>
                     <option value="ROLE_ADMIN">Admin</option>

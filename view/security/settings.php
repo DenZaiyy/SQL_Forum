@@ -10,6 +10,7 @@ if (!App\Session::getUser()) {
         <div class="user-infos">
             <h2>User Infos</h2>
             <form action="index.php?ctrl=security&action=updateInfos" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                 <div class="inputs">
                     <div class="pseudo">
                         <label for="pseudo">Pseudo</label>
@@ -30,6 +31,7 @@ if (!App\Session::getUser()) {
         <div class="password">
             <h2>Password</h2>
             <form action="index.php?ctrl=security&action=modifyPassword" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                 <div class="inputs">
                     <div class="current">
                         <label for="password">Current password</label>

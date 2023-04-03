@@ -94,19 +94,28 @@ class ForumController extends AbstractController implements ControllerInterface
             $postManager = new PostManager();
 
             $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $token = filter_input(INPUT_POST, "_token", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($message) {
-                $postManager->add(
-                    [
-                        "message" => $message,
-                        "date" => date("Y-m-d H:i:s"),
-                        "topic_id" => $_GET['id'],
-                        "user_id" => SESSION::getUser()->getId(),
-                    ]
-                );
+            if (SESSION::checkToken($token)) {
+
+                if ($message) {
+                    $postManager->add(
+                        [
+                            "message" => $message,
+                            "date" => date("Y-m-d H:i:s"),
+                            "topic_id" => $_GET['id'],
+                            "user_id" => SESSION::getUser()->getId(),
+                        ]
+                    );
+                }
+
+                unset($_SESSION['_token']);
+
+                $this->redirectTo("forum", "detailTopic", $_GET['id']);
+            } else {
+                SESSION::addFlash("error", "Token invalide");
+                $this->redirectTo("security", "loginForm");
             }
-
-            $this->redirectTo("forum", "detailTopic", $_GET['id']);
         } else {
             $this->redirectTo("forum", "detailTopic", $_GET['id']);
             SESSION::addFlash("error", "Veuillez remplir tous les champs");
@@ -123,32 +132,42 @@ class ForumController extends AbstractController implements ControllerInterface
             //filtre les données
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $token = filter_input(INPUT_POST, "_token", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($title && $message) {
-                $id = $topicManager->add(
-                    [
-                        "title" => $title,
-                        "user_id" => SESSION::getUser()->getId(),
-                        "date" => date("Y-m-d H:i:s"),
-                        "category_id" => $_GET['id'],
-                    ]
-                );
+            if (SESSION::checkToken($token)) {
 
-                $postManager->add(
-                    [
-                        "message" => $message,
-                        "date" => date("Y-m-d H:i:s"),
-                        "topic_id" => $id,
-                        "user_id" => SESSION::getUser()->getId(),
-                    ]
-                );
+                if ($title && $message) {
+                    $id = $topicManager->add(
+                        [
+                            "title" => $title,
+                            "user_id" => SESSION::getUser()->getId(),
+                            "date" => date("Y-m-d H:i:s"),
+                            "category_id" => $_GET['id'],
+                        ]
+                    );
+
+                    $postManager->add(
+                        [
+                            "message" => $message,
+                            "date" => date("Y-m-d H:i:s"),
+                            "topic_id" => $id,
+                            "user_id" => SESSION::getUser()->getId(),
+                        ]
+                    );
+                }
+                unset($_SESSION['_token']);
+
+                SESSION::addFlash("success", "Votre sujet a bien été ajouté");
+                $this->redirectTo("forum", "detailTopic", $id);
+            } else {
+                SESSION::addFlash("error", "Token invalide");
+                $this->redirectTo("security", "loginForm");
             }
-
-            $this->redirectTo("forum", "detailTopic", $id);
-            SESSION::addFlash("success", "Votre sujet a bien été ajouté");
         } else {
-            $this->redirectTo("forum", "addTopicForm");
+            unset($_SESSION['_token']);
+
             SESSION::addFlash("error", "Veuillez remplir tous les champs");
+            $this->redirectTo("forum", "addTopicForm", $_GET['id']);
         }
     }
 
@@ -176,16 +195,26 @@ class ForumController extends AbstractController implements ControllerInterface
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $topicManager = new TopicManager();
-            $postManager = new PostManager();
+            $token = filter_input(INPUT_POST, "_token", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if ($category && $title && $message) {
-                $topicManager->updateTopic($title, $category, $id);
-                $postManager->updateMessagePost($message, $id);
+            if (SESSION::checkToken($token)) {
+
+                $topicManager = new TopicManager();
+                $postManager = new PostManager();
+
+                if ($category && $title && $message) {
+                    $topicManager->updateTopic($title, $category, $id);
+                    $postManager->updateMessagePost($message, $id);
+                }
+
+                unset($_SESSION['_token']);
+
+                SESSION::addFlash("success", "Votre sujet a bien été modifié");
+                $this->redirectTo("forum", "detailTopic", $id);
+            } else {
+                SESSION::addFlash("error", "Token invalide");
+                $this->redirectTo("security", "loginForm");
             }
-
-            SESSION::addFlash("success", "Votre sujet a bien été modifié");
-            $this->redirectTo("forum", "detailTopic", $id);
         } else {
             SESSION::addFlash("error", "Veuillez remplir tous les champs");
             $this->redirectTo("forum", "detailTopic", $id);
@@ -232,14 +261,16 @@ class ForumController extends AbstractController implements ControllerInterface
                     ]
                 );
 
+                unset($_SESSION['_token']);
+
                 $this->redirectTo("forum", "detailTopic", $topic);
             } else {
                 $likeManager->deleteLike($topic, $user);
                 $this->redirectTo("forum", "detailTopic", $topic);
             }
-        }
 
-        $this->redirectTo("forum", "listTopics");
+            $this->redirectTo("forum", "listTopics");
+        }
     }
 
     //function to delete a topic
@@ -252,6 +283,7 @@ class ForumController extends AbstractController implements ControllerInterface
         $postManager->deleteAllPost($id);
         $likeManager->deleteAllLike($id);
         $topicManager->delete($id);
+
 
         $this->redirectTo("forum", "listTopics");
         SESSION::addFlash("success", "Votre topic a bien été supprimé");

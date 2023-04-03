@@ -15,6 +15,7 @@ $like = $result["data"]["like"];
     ?>
         <div class="status">
             <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>" method="post">
+                <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
                 <button type="submit" name="submit" class="delete-btn"><i class="fa-solid fa-trash-can fa-xl"></i></button>
             </form>
             <form action="index.php?ctrl=forum&action=editForm&id=<?= $topic->getId() ?>" method="post">
@@ -101,6 +102,7 @@ if (App\Session::getUser() && $topic->getLock() == 0) { ?>
 
     <div class="form-comment">
         <form action="index.php?ctrl=forum&action=addComment&id=<?= $topic->getId() ?>" method="post">
+            <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
             <textarea name="message" placeholder="Write your comment ..." required></textarea>
             <button type="submit" name="submit">Add comment</button>
         </form>

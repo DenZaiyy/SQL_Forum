@@ -10,6 +10,7 @@ if (!App\Session::getUser()) {
     <div class="addTopic">
         <h1>Edit topic</h1>
         <form action="index.php?ctrl=forum&action=editTopic&id=<?= $_GET['id'] ?>" method="post">
+            <input type="hidden" name="_token" value="<?= $_SESSION['_token'] ?>">
             <div class="category">
                 <label for="category">Category</label>
                 <select name="category">

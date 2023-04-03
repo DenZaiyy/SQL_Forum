@@ -61,6 +61,9 @@ if ($action == "ajax") { //si l'action était ajax
 } else {
     ob_start(); //démarre un buffer (tampon de sortie)
     /*la vue s'insère dans le buffer qui devra être vidé au milieu du layout*/
+    if (!isset($_SESSION['_token'])) {
+        $_SESSION['_token'] = bin2hex(random_bytes(32));
+    }
     include($result['view']);
     /*je mets cet affichage dans une variable*/
     $page = ob_get_contents();
