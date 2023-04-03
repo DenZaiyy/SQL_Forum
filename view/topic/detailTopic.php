@@ -10,11 +10,14 @@ $comments = $result["data"]["findComments"];
 <div class="card-topic">
     <?php
     //if user is admin or owner of topic, show delete/lock button
-    if (App\Session::getUser()->getRole() == "ROLE_ADMIN" || App\Session::getUser()->getId() == $topic->getUser()->getId()) {
+    if (App\Session::isAdmin() || App\Session::getUser()->getId() == $topic->getUser()->getId()) {
     ?>
         <div class="status">
             <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>" method="post">
                 <button type="submit" name="submit" class="delete-btn"><i class="fa-solid fa-trash-can fa-xl"></i></button>
+            </form>
+            <form action="index.php?ctrl=forum&action=editForm&id=<?= $topic->getId() ?>" method="post">
+                <button type="submit" name="submit" class="edits-btn"><i class="fa-solid fa-pen-to-square fa-xl"></i></button>
             </form>
             <?php if ($topic->getLock() == 0) { ?>
                 <form action="index.php?ctrl=forum&action=lockTopic&id=<?= $topic->getId() ?>" method="post">
@@ -61,15 +64,15 @@ if ($comments) {
             <div class="card-comment">
                 <?php
                 //if user is admin, display delete button
-                if (App\Session::getUser()->getRole() == "ROLE_ADMIN" || App\Session::getUser()->getId() == $comment->getUser()->getId()) {
+                // if (App\Session::getUser()->getRole() == "ROLE_ADMIN" || App\Session::getUser()->getId() == $comment->getUser()->getId()) {
                 ?>
-                    <div class="status">
+                <!-- <div class="status">
                         <form action="index.php?ctrl=forum&action=deleteComment&id=<?= $comment->getId() ?>" method="post">
                             <button type="submit" name="submit"><i class="fa-solid fa-trash-can fa-xl"></i></button>
                         </form>
-                    </div>
+                    </div> -->
                 <?php
-                }
+                // }
                 ?>
                 <div class="infos">
                     <div class="img">

@@ -50,14 +50,13 @@ if (App\Session::getUser()) {
                             <a href="index.php?ctrl=security&action=settings">Settings</a>
                             <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
                             <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
-                            <a href="index.php?ctrl=security&action=listUsers">Voir la liste des gens</a>
 
                             <?php
-                            // if (App\Session::isAdmin()) {
+                            if (App\Session::isAdmin()) {
                             ?>
-                            <!-- <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a> -->
+                                <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a>
                             <?php
-                            // }
+                            }
                             ?>
                         </div>
                         <div class="btn-disconnect">

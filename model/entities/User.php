@@ -98,7 +98,7 @@ final class User extends Entity
 	 */
 	public function getRole()
 	{
-		return $this->role;
+		return json_decode($this->role);
 	}
 
 	/**
@@ -108,9 +108,15 @@ final class User extends Entity
 	 */
 	public function setRole($role)
 	{
-		$this->role = $role;
+		$this->role = json_encode($role);
 
 		return $this;
+	}
+
+	public function hasRole($role)
+	{
+		$result = $this->getRole() == $role;
+		return $result;
 	}
 
 	/**
