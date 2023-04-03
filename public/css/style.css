@@ -356,6 +356,22 @@ header nav .profil .active {
   align-items: center;
   height: 54vh;
 }
+.content-flex main .addTopic form .category {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  width: 100%;
+}
+.content-flex main .addTopic form .category select {
+  margin-top: 5px;
+  padding: 10px;
+  background-color: var(--body-color);
+  border: 1px solid var(--body-color);
+}
+.content-flex main .addTopic form .category select:focus {
+  outline: none;
+  border: 1px solid var(--color-white);
+}
 .content-flex main .addTopic form .title {
   display: flex;
   flex-direction: column;

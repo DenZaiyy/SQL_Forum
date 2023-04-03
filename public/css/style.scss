@@ -405,6 +405,25 @@ header {
                 align-items: center;
                 height: 54vh;
 
+                .category {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0 50px;
+                    width: 100%;
+
+                    select {
+                        margin-top: 5px;
+                        padding: 10px;
+                        background-color: var(--body-color);
+                        border: 1px solid var(--body-color);
+
+                        &:focus {
+                            outline: none;
+                            border: 1px solid var(--color-white);
+                        }
+                    }
+                }
+
                 .title {
                     display: flex;
                     flex-direction: column;
