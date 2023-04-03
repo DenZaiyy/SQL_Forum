@@ -9,7 +9,7 @@ final class User extends Entity
 
 	private $id;
 	private $pseudo;
-	private $email;
+	private $mail;
 	private $password;
 	private $createdAt;
 	private $avatar;
@@ -115,16 +115,16 @@ final class User extends Entity
 
 	public function hasRole($role)
 	{
-		$result = $this->getRole() == $role;
+		$result = $this->getRole() == json_encode($role);
 		return $result;
 	}
 
 	/**
 	 * Get the value of email
 	 */
-	public function getEmail()
+	public function getMail()
 	{
-		return $this->email;
+		return $this->mail;
 	}
 
 	/**
@@ -132,9 +132,9 @@ final class User extends Entity
 	 *
 	 * @return  self
 	 */
-	public function setEmail($email)
+	public function setMail($mail)
 	{
-		$this->email = $email;
+		$this->mail = $mail;
 
 		return $this;
 	}

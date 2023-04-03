@@ -53,7 +53,7 @@ class ForumController extends AbstractController implements ControllerInterface
                 "topic" => $topicManager->findOneById($id),
                 "firstMessage" => $postManager->findFirstById($id),
                 "findComments" => $postManager->findAllById($id),
-                "like" => $likeManager->updateLikes($id)
+                "like" => $likeManager->countLikes($id)
             ]
         ];
     }
@@ -171,29 +171,43 @@ class ForumController extends AbstractController implements ControllerInterface
     //function to edit a topic
     public function editTopic($id)
     {
-        $topicManager = new TopicManager();
-        $postManager = new PostManager();
-
         if (!empty($_POST)) {
-            $category = filter_input(INPUT_POST, "category", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $category = filter_input(INPUT_POST, "category", FILTER_SANITIZE_NUMBER_INT);
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+            $topicManager = new TopicManager();
+            $postManager = new PostManager();
+
             if ($category && $title && $message) {
                 $topicManager->updateTopic($title, $category, $id);
-
                 $postManager->updateMessagePost($message, $id);
             }
 
-            $this->redirectTo("forum", "detailTopic", $id);
             SESSION::addFlash("success", "Votre sujet a bien été modifié");
-        } else {
             $this->redirectTo("forum", "detailTopic", $id);
+        } else {
             SESSION::addFlash("error", "Veuillez remplir tous les champs");
+            $this->redirectTo("forum", "detailTopic", $id);
         }
     }
 
+    //function detailUser to show user's profile
+    public function detailUser($id)
+    {
+        $topicManager = new TopicManager();
+        $userManager = new UserManager();
 
+        $user = $userManager->findOneById($id);
+
+        return [
+            "view" => VIEW_DIR . "security/detailUser.php",
+            "data" => [
+                "user" => $user,
+                "topics" => $topicManager->findAllByUser($id)
+            ]
+        ];
+    }
 
     //Function like for topics
     public function like()
@@ -223,8 +237,6 @@ class ForumController extends AbstractController implements ControllerInterface
                 $likeManager->deleteLike($topic, $user);
                 $this->redirectTo("forum", "detailTopic", $topic);
             }
-
-            $likeManager->updateLikes($topic);
         }
 
         $this->redirectTo("forum", "listTopics");

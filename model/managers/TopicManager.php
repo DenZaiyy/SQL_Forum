@@ -17,6 +17,7 @@ class TopicManager extends Manager
         parent::connect();
     }
 
+    //function find last five topics
     public function findLastFiveTopics($order = null)
     {
         $orderQuery = ($order) ?
@@ -33,11 +34,25 @@ class TopicManager extends Manager
         );
     }
 
+    //function find all topics in category
     public function findAllTopicsInCategory($id)
     {
         $sql = "SELECT *
                 FROM " . $this->tableName . " t
                 WHERE t.category_id = :id";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
+
+    //function find all topics by user
+    public function findAllByUser($id)
+    {
+        $sql = "SELECT *
+                FROM " . $this->tableName . " t
+                WHERE t.user_id = :id";
 
         return $this->getMultipleResults(
             DAO::select($sql, ['id' => $id], true),
@@ -54,6 +69,7 @@ class TopicManager extends Manager
         return DAO::delete($sql, ['id' => $id]);
     }
 
+    //function to lock topic id
     public function lockTopic($id)
     {
         $sql = "UPDATE `" . $this->tableName . "` 
@@ -63,6 +79,7 @@ class TopicManager extends Manager
         return DAO::update($sql, ['id' => $id]);
     }
 
+    //function to unlock topic id
     public function unlockTopic($id)
     {
         $sql = "UPDATE `" . $this->tableName . "` 
@@ -72,6 +89,7 @@ class TopicManager extends Manager
         return DAO::update($sql, ['id' => $id]);
     }
 
+    //function to update topic id with title and category id
     public function updateTopic($title, $categoryId, $id)
     {
         $sql = "UPDATE `" . $this->tableName . "` 
