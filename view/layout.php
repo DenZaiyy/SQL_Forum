@@ -39,14 +39,13 @@ if (App\Session::getUser()) {
                 <div class="profil" id="profil">
                     <i class="fa-solid fa-house-user fa-2xl"></i>
                     <div class="dropdown-user-menu" id="dropdown">
-                        <a href="">
+                        <a href="index.php?ctrl=forum&action=detailUser&id=<?= App\Session::getUser()->getId() ?>">
                             <div class="user-info">
                                 <img src="<?= App\Session::getUser()->getAvatar() ?>" alt="image of <?= App\Session::getUser()->getPseudo() ?>" height="50" width="50">
                                 <strong><?= App\Session::getUser()->getPseudo() ?></strong>
                             </div>
                         </a>
                         <div class="links">
-                            <a href="">Profile</a>
                             <a href="index.php?ctrl=security&action=settings">Settings</a>
                             <a href="index.php?ctrl=forum&action=listTopics">List of topics</a>
                             <a href="index.php?ctrl=forum&action=listCategories">List of categories</a>
@@ -54,7 +53,8 @@ if (App\Session::getUser()) {
                             <?php
                             if (App\Session::isAdmin()) {
                             ?>
-                                <a href="index.php?ctrl=security&action=users">Voir la liste des gens</a>
+                                <hr>
+                                <a href="index.php?ctrl=security&action=listUsers">Voir la liste des gens</a>
                             <?php
                             }
                             ?>
