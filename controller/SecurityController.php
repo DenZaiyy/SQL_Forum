@@ -113,7 +113,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         $manager->connectUser($pseudo, $hash);
                         SESSION::setUser($user);
 
-                        SESSION::addFlash("success", "Bravo " . SESSION::getUser()->getPseudo() . ", vous êtes connecté!");
+                        SESSION::addFlash("success", "Bienvenue " . SESSION::getUser()->getPseudo() . " !");
                         $this->redirectTo("forum", "listTopics");
                     } else {
                         SESSION::addFlash("error", "Une erreur est survenue lors de la connexion");
@@ -133,15 +133,21 @@ class SecurityController extends AbstractController implements ControllerInterfa
     //function to logout user
     public function logout()
     {
-        unset($_SESSION['user']);
-        // session_destroy();
-        $this->redirectTo("security", "loginForm");
+        if (SESSION::getUser()) {
+            unset($_SESSION['user']);
+            session_destroy();
+            SESSION::addFlash("success", "Vous êtes bien déconnecté");
+            $this->redirectTo("security", "loginForm");
+        } else {
+            SESSION::addFlash("error", "Vous devez être connecté pour vous déconnecter");
+            $this->redirectTo("security", "loginForm");
+        }
     }
 
     //function to list all users
     public function listUsers()
     {
-        // $this->restrictTo("ROLE_ADMIN");
+        $this->restrictTo("ROLE_ADMIN");
 
         $manager = new UserManager();
         $users = $manager->findAll();
@@ -166,12 +172,16 @@ class SecurityController extends AbstractController implements ControllerInterfa
             if ($password && $newPassword && $confirmNewPassword) {
                 $manager = new UserManager();
 
-                $hash = password_hash($password, PASSWORD_DEFAULT); //hash current password
+                $user = SESSION::getUser(); //find user by pseudo (current user
+
+                $hash = $user->getPassword(); //hash current password
 
                 if (password_verify($password, $hash)) {
                     if ($newPassword == $confirmNewPassword) {
                         $hash = password_hash($newPassword, PASSWORD_DEFAULT); //hash new password
-                        $manager->updatePassword(SESSION::getUser(), $hash); //update password
+
+                        $manager->updatePassword($user->getId(), $hash); //update password
+
                         SESSION::addFlash("success", "Votre mot de passe a bien été modifié");
                         $this->redirectTo("security", "loginForm");
                     } else {
@@ -185,6 +195,53 @@ class SecurityController extends AbstractController implements ControllerInterfa
             } else {
                 SESSION::addFlash("error", "Veuillez remplir tous les champs");
                 $this->redirectTo("security", "loginForm");
+            }
+        }
+    }
+
+    //function to update role of user
+    public function updateRole()
+    {
+        $this->restrictTo("ROLE_ADMIN");
+
+        if (!empty($_POST)) {
+            $id = $_GET['id'];
+            $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $manager = new UserManager();
+
+            $manager->updateRole($id, $role);
+
+            SESSION::addFlash("success", "Le rôle a bien été modifié");
+            $this->redirectTo("security", "listUsers");
+        }
+    }
+
+    public function updateInfos()
+    {
+        if (!empty($_POST)) {
+            $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_EMAIL);
+            $avatar = PUBLIC_DIR . "img/default-avatar.png";
+
+            $id = SESSION::getUser()->getId();
+
+            if ($pseudo && $email) {
+                $manager = new UserManager();
+                $user = $manager->findOneByPseudo($pseudo);
+
+                if (!$user) {
+                    $manager->updateInfos($id, $pseudo, $email, $avatar);
+
+                    SESSION::addFlash("success", "Vos informations ont bien été modifiées, veuillez vous reconncter");
+                    $this->redirectTo("security", "logout");
+                } else {
+                    SESSION::addFlash("error", "Pseudo déjà utilisé");
+                    $this->redirectTo("security", "settings");
+                }
+            } else {
+                SESSION::addFlash("error", "Veuillez remplir tous les champs");
+                $this->redirectTo("security", "settings");
             }
         }
     }

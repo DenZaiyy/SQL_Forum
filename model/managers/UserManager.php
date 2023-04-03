@@ -19,7 +19,7 @@ class UserManager extends Manager
 
     public function findOneByPseudo($data)
     {
-        $sql = "SELECT u.id_user, u.pseudo, u.password, u.avatar, u.role
+        $sql = "SELECT *
                 FROM `" . $this->tableName . "` u
                 WHERE u.pseudo = :pseudo";
 
@@ -43,17 +43,53 @@ class UserManager extends Manager
     }
 
     // function updatePassword ($pseudo, $password) for SecurityController.php
-    public function updatePassword($pseudo, $password)
+    public function updatePassword($id, $password)
     {
         $sql = "UPDATE `" . $this->tableName . "` u
                 SET u.password = :password
-                WHERE u.pseudo = :pseudo";
+                WHERE u.id_user = :id";
 
         return DAO::update(
             $sql,
             [
-                'pseudo' => $pseudo,
+                'id' => $id,
                 'password' => $password
+            ]
+        );
+    }
+
+    //function updateRole
+    public function updateRole($id, $role)
+    {
+        $sql = "UPDATE `" . $this->tableName . "` u 
+                SET u.role = :role
+                WHERE u.id_user = :id";
+
+        return DAO::update(
+            $sql,
+            [
+                'id' => $id,
+                'role' => json_encode($role)
+            ]
+        );
+    }
+
+    //function to update user infos
+    public function updateInfos($id, $pseudo, $email, $avatar)
+    {
+        $sql = "UPDATE `" . $this->tableName . "` u 
+                SET u.pseudo = :pseudo, 
+                    u.mail = :email, 
+                    u.avatar = :avatar
+                WHERE u.id_user = :id";
+
+        return DAO::update(
+            $sql,
+            [
+                'id' => $id,
+                'pseudo' => $pseudo,
+                'email' => $email,
+                'avatar' => $avatar
             ]
         );
     }
