@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : jeu. 30 mars 2023 à 16:01
+-- Généré le : mar. 04 avr. 2023 à 20:38
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.1.15
 
@@ -50,10 +50,18 @@ INSERT INTO `category` (`id_category`, `label`) VALUES
 --
 
 CREATE TABLE `like` (
-  `id` int NOT NULL,
   `user_id` int NOT NULL,
   `topic_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `like`
+--
+
+INSERT INTO `like` (`user_id`, `topic_id`) VALUES
+(4, 1),
+(5, 1),
+(4, 18);
 
 -- --------------------------------------------------------
 
@@ -64,7 +72,7 @@ CREATE TABLE `like` (
 CREATE TABLE `message` (
   `id_message` int NOT NULL,
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` datetime NOT NULL,
   `topic_id` int NOT NULL,
   `user_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -74,16 +82,10 @@ CREATE TABLE `message` (
 --
 
 INSERT INTO `message` (`id_message`, `message`, `date`, `topic_id`, `user_id`) VALUES
-(1, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, sunt possimus sed molestias modi nam. Rem vero, in cumque dignissimos quis, laboriosam nulla assumenda error ipsa quam repellat eius eligendi?\r\n            Repudiandae, explicabo. Laudantium, reprehenderit similique quis, reiciendis doloremque possimus et aliquam inventore ducimus temporibus perferendis obcaecati at. Rerum ducimus vitae laborum modi pariatur at provident dicta, accusantium reiciendis error repellat!\r\n            Facilis id doloremque minus at commodi voluptatibus repellat ipsa ab possimus debitis ipsam dolore, eum maxime ea quisquam aliquid veniam harum nihil amet explicabo perspiciatis nemo quia? Dolorum, exercitationem minima?', '2023-03-22 19:38:11', 1, 1),
-(2, 'jlgjgjdlkgjdlgkjlkgjlkdjlgdj', '2023-03-28 07:23:42', 2, 1),
-(3, 'elzjrzlkjlkzjrlzkrjzlkjkljr', '2023-03-28 07:23:53', 3, 2),
-(4, 'japepaeaoeiaopeiapoeiaepoaieap', '2023-03-28 07:24:04', 4, 1),
-(5, 'epaepoaieapoeiaopeiapoeaiepa', '2023-03-28 07:24:14', 5, 1),
-(6, 'jdqqpdioeiapoeiaopeiepoaieapoksjsjdqlskjdqlkdjq', '2023-03-28 07:24:29', 6, 2),
-(7, 'A votre avis, que veux dire PDO?', '2023-03-28 07:24:40', 7, 2),
-(8, 'ljslfjskfljslkfsjflsjflksjflsjfsfjslfjsljfslkjslfjslfslj', '2023-03-28 08:02:04', 1, 2),
-(9, 'fjqsqsldjqldjqlkdjqkdjqlkq', '2023-03-28 08:26:09', 1, 2),
-(10, 'DONNE NOUS LA TRADUCTION', '2023-03-28 08:55:56', 7, 2);
+(1, 'A votre avis, qu\'est ce php PDO ?', '2023-04-01 19:28:59', 1, 4),
+(16, 'SAISON 10, vos rank ?', '2023-04-03 06:55:04', 18, 5),
+(17, 'Avez vous d&eacute;j&agrave; vu l&#039;annonce ?dfdsfsdfsd', '2023-04-03 07:46:40', 19, 4),
+(18, 'hein ?', '2023-04-03 07:46:49', 19, 5);
 
 -- --------------------------------------------------------
 
@@ -95,9 +97,8 @@ CREATE TABLE `topic` (
   `id_topic` int NOT NULL,
   `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `user_id` int NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `nbLike` int DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
+  `date` datetime NOT NULL,
+  `lock` tinyint(1) NOT NULL DEFAULT '0',
   `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -105,14 +106,10 @@ CREATE TABLE `topic` (
 -- Déchargement des données de la table `topic`
 --
 
-INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `nbLike`, `status`, `category_id`) VALUES
-(1, 'Ceci est un topic de test 1', 1, '2023-03-22 14:39:01', NULL, 0, 2),
-(2, 'Ceci est un topic de test 2', 2, '2023-03-23 08:36:33', NULL, 0, 1),
-(3, 'Ceci est un topic de test 3', 1, '2023-03-23 10:02:35', NULL, 0, 2),
-(4, 'Ceci est un topic de test 4', 1, '2023-03-23 10:02:43', NULL, 0, 1),
-(5, 'Ceci est un topic de test 5', 1, '2023-03-23 10:02:51', NULL, 0, 1),
-(6, 'Ceci est un topic de test 6', 1, '2023-03-23 10:02:58', NULL, 0, 2),
-(7, 'What is PDO ?', 1, '2023-03-28 06:49:27', NULL, 0, 5);
+INSERT INTO `topic` (`id_topic`, `title`, `user_id`, `date`, `lock`, `category_id`) VALUES
+(1, 'What is PDO ?', 4, '2023-04-01 19:28:34', 1, 5),
+(18, 'Rocket League', 5, '2023-04-03 06:55:04', 0, 1),
+(19, 'Counter-Strike 2', 4, '2023-04-03 07:46:40', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -135,9 +132,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `pseudo`, `mail`, `password`, `createdAt`, `avatar`, `role`) VALUES
-(1, 'denZ', 'denz@example.com', 'test123', '2023-03-22 19:57:22', 'public/img/defaulta-user.png', NULL),
-(2, 'test', 'test@test.com', 'testtesttest', '2023-03-28 06:48:42', NULL, NULL),
-(4, 'denzaiyy', 'support@denzaiyy.fr', '$2y$10$MKXowrKGD.CjHbuJi9lpx.1wv78HYPu5FaesfuV0a41cimd7iQA8q', '2023-03-30 09:35:26', 'public/img/defaulta-user.png', '\"ROLE_USER\"');
+(4, 'DenZaiyy', 'support@denzaiyy.fr', '$2y$10$MKXowrKGD.CjHbuJi9lpx.1wv78HYPu5FaesfuV0a41cimd7iQA8q', '2023-03-30 09:35:26', 'public/img/default-user.png', '\"ROLE_ADMIN\"'),
+(5, 'guest', 'guest@test.fr', '$2y$10$KqgOv.MWCug.3cPJIVQ.HeC05m6U/0Urzoe7Ljan4fg3Bebd/VAPq', '2023-03-31 07:43:19', 'public/img/default-user.png', '\"ROLE_USER\"'),
+(11, 'test5', 'test@test.fr', '$2y$10$yrIpF8dwORlovMs3QBBbKOgLHDoD36iPoaukg4nWW83ENb.EREfFW', '2023-04-03 09:25:00', 'public/img/uploads/642a9b6c432b5-', '\"ROLE_USER\"');
 
 --
 -- Index pour les tables déchargées
@@ -153,7 +150,7 @@ ALTER TABLE `category`
 -- Index pour la table `like`
 --
 ALTER TABLE `like`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`user_id`,`topic_id`),
   ADD KEY `topic` (`topic_id`),
   ADD KEY `user` (`user_id`);
 
@@ -190,28 +187,22 @@ ALTER TABLE `category`
   MODIFY `id_category` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT pour la table `like`
---
-ALTER TABLE `like`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id_message` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_message` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT pour la table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id_topic` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_topic` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Contraintes pour les tables déchargées
@@ -229,14 +220,14 @@ ALTER TABLE `like`
 --
 ALTER TABLE `message`
   ADD CONSTRAINT `Message_Topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
-  ADD CONSTRAINT `Message_User0_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `Message_User0_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `topic`
 --
 ALTER TABLE `topic`
   ADD CONSTRAINT `Topic_Category0_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
-  ADD CONSTRAINT `Topic_User_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `Topic_User_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
