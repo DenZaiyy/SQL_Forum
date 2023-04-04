@@ -58,8 +58,10 @@ class Session
         return (isset($_SESSION['_token'])) ? $_SESSION['_token'] : false;
     }
 
-    public static function checkToken($token)
+    public static function checkToken()
     {
+        $token = filter_input(INPUT_POST, '_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $result = false;
         $_token = self::getToken();
 
@@ -67,8 +69,12 @@ class Session
             $result = ($token == $_token);
             if (!$result) {
                 self::setUser(null);
+
+                self::addFlash("error", "Une erreur est survenue");
+                header('location: index.php?ctrl=security&action=loginForm');
             }
         }
+        unset($_SESSION['_token']);
         return $result;
     }
 }

@@ -219,20 +219,13 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
             $id = $_GET['id'];
             $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $token = filter_input(INPUT_POST, '_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            if (SESSION::checkToken($token)) {
+            if (SESSION::checkToken()) {
                 $manager = new UserManager();
-
                 $manager->updateRole($id, $role);
-
-                unset($_SESSION['_token']);
 
                 SESSION::addFlash("success", "Le rôle a bien été modifié");
                 $this->redirectTo("security", "listUsers");
-            } else {
-                SESSION::addFlash("error", "Une erreur est survenue");
-                $this->redirectTo("security", "loginForm");
             }
         } else {
             SESSION::addFlash("error", "Une erreur est survenue");
@@ -247,7 +240,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_SANITIZE_EMAIL);
             $avatar = PUBLIC_DIR . "img/default-avatar.png";
 
-            $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $token = filter_input(INPUT_POST, '_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if (SESSION::checkToken($token)) {
                 $id = SESSION::getUser()->getId();
