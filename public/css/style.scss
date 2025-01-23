@@ -41,8 +41,8 @@ body {
 
 .container {
     min-height: 100vh;
-    position: relative;
-    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -100,7 +100,7 @@ header {
                 width: 200px;
                 right: 0;
                 background-color: #4E558B;
-                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
                 padding: 15px;
                 transition: var(--trans-linear-02s);
                 z-index: 5;
@@ -144,13 +144,13 @@ header {
                 transition: var(--trans-linear-02s);
             }
         }
-        
+
 
     }
 }
 .content-flex {
     display: flex;
-    height: 86vh;
+    flex: 1;
     aside {
         padding: 20px;
         min-width: 250px;
@@ -202,11 +202,11 @@ header {
                         background: none;
                         border: none;
                         cursor: pointer;
-    
+
                         i {
                             color: white;
                             transition: all .3s ease-in-out;
-    
+
                             &:hover {
                                 color: red;
                                 transition: all .3s ease-in-out;
@@ -511,7 +511,7 @@ header {
                         background-color: var(--body-color);
                         border: 1px solid var(--body-color);
                         font-family: 'Courier New', Courier, monospace;
-                        
+
                         &:focus {
                             outline: none;
                             border: 1px solid var(--color-white);
@@ -529,8 +529,6 @@ header {
 
                     textarea {
                         margin-top: 5px;
-                        height: 30px;
-                        padding: 5px;
                         height: 100%;
                         resize: none;
                         padding: 10px;
@@ -567,7 +565,7 @@ header {
                 }
             }
         }
-        
+
         .categories {
             display: grid;
             grid-template-columns: auto auto auto;
@@ -678,7 +676,7 @@ header {
 
                             }
                         }
-                        
+
                         .current, .new-pwd, .confirm-new-pwd {
                             display: flex;
                             flex-direction: column;
@@ -808,12 +806,7 @@ footer {
     justify-content: space-around;
     height: 100px;
     background-color: var(--head-color);
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
-
-    flex: 1;
 
     .notices {
         display: flex;

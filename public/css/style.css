@@ -39,8 +39,8 @@ body a {
 
 .container {
   min-height: 100vh;
-  position: relative;
-  padding-bottom: 100px;
+  display: flex;
+  flex-direction: column;
 }
 
 header nav {
@@ -54,9 +54,7 @@ header nav {
 header nav .logo {
   display: flex;
   align-items: center;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
 }
 header nav .logo p {
   margin-left: 10px;
@@ -86,9 +84,7 @@ header nav .searchBar input[type=search]:focus {
   outline: none;
 }
 header nav .profil {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
+  user-select: none;
   cursor: pointer;
 }
 header nav .profil .dropdown-user-menu {
@@ -98,7 +94,7 @@ header nav .profil .dropdown-user-menu {
   width: 200px;
   right: 0;
   background-color: #4E558B;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   padding: 15px;
   transition: var(--trans-linear-02s);
   z-index: 5;
@@ -138,7 +134,7 @@ header nav .profil .active {
 
 .content-flex {
   display: flex;
-  height: 86vh;
+  flex: 1;
 }
 .content-flex aside {
   padding: 20px;
@@ -283,7 +279,6 @@ header nav .profil .active {
 }
 .content-flex main .card-comment .infos .createBy a {
   display: block;
-  width: -moz-max-content;
   width: max-content;
 }
 .content-flex main .card-comment .infos .createBy a:hover {
@@ -366,9 +361,6 @@ header nav .profil .active {
   resize: none;
   width: 100%;
   height: 10vh;
-}
-.content-flex main .form-comment form textarea::-moz-placeholder {
-  color: var(--color-white);
 }
 .content-flex main .form-comment form textarea::placeholder {
   color: var(--color-white);
@@ -459,8 +451,6 @@ header nav .profil .active {
 }
 .content-flex main .addTopic form .firstMessage textarea {
   margin-top: 5px;
-  height: 30px;
-  padding: 5px;
   height: 100%;
   resize: none;
   padding: 10px;
@@ -699,11 +689,7 @@ footer {
   justify-content: space-around;
   height: 100px;
   background-color: var(--head-color);
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
-  flex: 1;
 }
 footer .notices {
   display: flex;
@@ -732,4 +718,6 @@ footer .socials .fb {
 }
 footer .socials .twitter {
   margin-right: 15px;
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */
