@@ -14,7 +14,7 @@ use Model\Managers\UserManager;
 class ForumController extends AbstractController implements ControllerInterface
 {
 
-    public function index()
+    public function index(): array
     {
 
         $topicManager = new TopicManager();
@@ -28,7 +28,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //List of topics
-    public function listTopics()
+    public function listTopics(): array
     {
         $topicManager = new TopicManager();
 
@@ -41,7 +41,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //Detail for one Topic
-    public function detailTopic($id)
+    public function detailTopic($id): array
     {
         $topicManager = new TopicManager();
         $postManager = new PostManager();
@@ -53,13 +53,14 @@ class ForumController extends AbstractController implements ControllerInterface
                 "topic" => $topicManager->findOneById($id),
                 "firstMessage" => $postManager->findFirstById($id),
                 "findComments" => $postManager->findAllById($id),
+                "countComments" => $postManager->countPost($id),
                 "like" => $likeManager->countLikes($id)
             ]
         ];
     }
 
     //function for return to the form to add a new topic
-    public function addTopicForm()
+    public function addTopicForm(): array
     {
         return [
             "view" => VIEW_DIR . "topic/addTopic.php"
@@ -67,7 +68,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //List of categories
-    public function listCategories()
+    public function listCategories(): array
     {
         return [
             "view" => VIEW_DIR . "category/listCategories.php"
@@ -75,7 +76,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //List of topics for one category
-    public function detailCategory($id)
+    public function detailCategory($id): array
     {
         $topicManager = new TopicManager();
 
@@ -88,13 +89,14 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function to add new comment to a topic
-    public function addComment()
+    public function addComment(): void
     {
         if (!empty($_POST)) {
             $postManager = new PostManager();
 
             $message = filter_input(INPUT_POST, "message", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $token = filter_input(INPUT_POST, "_token", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 
             if (SESSION::checkToken($token)) {
 
@@ -107,23 +109,35 @@ class ForumController extends AbstractController implements ControllerInterface
                             "user_id" => SESSION::getUser()->getId(),
                         ]
                     );
+                } else {
+                    SESSION::addFlash("error", "Veuillez remplir tous les champs");
                 }
 
                 unset($_SESSION['_token']);
 
+                SESSION::addFlash("success", "Votre commentaire a bien été ajouté");
                 $this->redirectTo("forum", "detailTopic", $_GET['id']);
             } else {
                 SESSION::addFlash("error", "Token invalide");
                 $this->redirectTo("security", "loginForm");
             }
         } else {
-            $this->redirectTo("forum", "detailTopic", $_GET['id']);
             SESSION::addFlash("error", "Veuillez remplir tous les champs");
+            $this->redirectTo("forum", "detailTopic", $_GET['id']);
         }
     }
 
+    public function deleteComment($id): void
+    {
+        $postManager = new PostManager();
+        $topicID = $postManager->findOneById($id)->getTopic()->getId();
+        $postManager->deletePost($id);
+        SESSION::addFlash('success', 'Votre commentaire a bien été supprimé');
+        $this->redirectTo("forum", "detailTopic", $topicID);
+    }
+
     //function to add new topic with first message
-    public function addTopic()
+    public function addTopic(): void
     {
         if (!empty($_POST)) {
             $topicManager = new TopicManager();
@@ -172,7 +186,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function for the form to edit a topic
-    public function editForm()
+    public function editForm(): array
     {
         $topicManager = new TopicManager();
         $postManager = new PostManager();
@@ -188,7 +202,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
 
     //function to edit a topic
-    public function editTopic($id)
+    public function editTopic($id): void
     {
         if (!empty($_POST)) {
             $category = filter_input(INPUT_POST, "category", FILTER_SANITIZE_NUMBER_INT);
@@ -222,7 +236,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function detailUser to show user's profile
-    public function detailUser($id)
+    public function detailUser($id): array
     {
         $topicManager = new TopicManager();
         $userManager = new UserManager();
@@ -239,7 +253,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //Function like for topics
-    public function like()
+    public function like(): void
     {
         if (!empty($_POST)) {
             $likeManager = new LikeManager();
@@ -274,7 +288,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function to delete a topic
-    public function deleteTopic($id)
+    public function deleteTopic($id): void
     {
         $topicManager = new TopicManager();
         $postManager = new PostManager();
@@ -290,7 +304,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function to lock a topic
-    public function lockTopic($id)
+    public function lockTopic($id): void
     {
         $topicManager = new TopicManager();
 
@@ -301,7 +315,7 @@ class ForumController extends AbstractController implements ControllerInterface
     }
 
     //function to unlock a topic
-    public function unlockTopic($id)
+    public function unlockTopic($id): void
     {
         $topicManager = new TopicManager();
 

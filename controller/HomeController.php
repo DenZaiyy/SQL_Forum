@@ -19,16 +19,16 @@ class HomeController extends AbstractController implements ControllerInterface
         //if user not connected, redirect to login page
         if (!Session::getUser()) {
             $this->redirectTo("security", "loginForm");
-        } else {
-            $topicManager = new TopicManager();
-
-            return [
-                "view" => VIEW_DIR . "home.php",
-                "data" => [
-                    "topics" => $topicManager->findLastFiveTopics(["date", "DESC"]),
-                ]
-            ];
         }
+
+        $topicManager = new TopicManager();
+
+        return [
+            "view" => VIEW_DIR . "home.php",
+            "data" => [
+                "topics" => $topicManager->findLastFiveTopics(["date", "DESC"]),
+            ]
+        ];
     }
 
     /* TODO: add rules and notice */

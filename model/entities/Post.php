@@ -7,8 +7,8 @@ use App\Entity;
 final class Post extends Entity
 {
 
-	private $id;
-	private $message;
+	private int $id;
+	private string $message;
 	private $date;
 	private Topic $topic;
 	private User $user;
@@ -21,7 +21,7 @@ final class Post extends Entity
 	/**
 	 * Get the value of id
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->id;
 	}
@@ -29,9 +29,8 @@ final class Post extends Entity
 	/**
 	 * Set the value of id
 	 *
-	 * @return  self
 	 */
-	public function setId($id)
+	public function setId($id): Post
 	{
 		$this->id = $id;
 
@@ -41,7 +40,7 @@ final class Post extends Entity
 	/**
 	 * Get the value of user
 	 */
-	public function getUser()
+	public function getUser(): User
 	{
 		return $this->user;
 	}
@@ -49,9 +48,8 @@ final class Post extends Entity
 	/**
 	 * Set the value of user
 	 *
-	 * @return  self
 	 */
-	public function setUser($user)
+	public function setUser($user): Post
 	{
 		$this->user = $user;
 
@@ -60,8 +58,7 @@ final class Post extends Entity
 
 	public function getDate()
 	{
-		$formattedDate = $this->date->format("d/m/Y, H:i:s");
-		return $formattedDate;
+        return $this->date->format("d/m/Y, H:i:s");
 	}
 
 	public function setDate($date)
@@ -73,7 +70,7 @@ final class Post extends Entity
 	/**
 	 * Get the value of closed
 	 */
-	public function getTopic()
+	public function getTopic(): Topic
 	{
 		return $this->topic;
 	}

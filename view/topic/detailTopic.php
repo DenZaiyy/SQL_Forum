@@ -61,12 +61,12 @@ $like = $result["data"]["like"];
 
 if ($comments) {
     foreach ($comments as $key => $comment) {
-        if ($key != 0) {
+        if ($key !== 0) {
 ?>
             <div class="card-comment">
                 <?php
                 //if user is admin, display delete button
-                if (App\Session::isAdmin() || App\Session::getUser()->getId() == $comment->getUser()->getId()) {
+                if (App\Session::isAdmin() || App\Session::getUser()->getId() === $comment->getUser()->getId()) {
                 ?>
                     <div class="status">
                         <form action="index.php?ctrl=forum&action=deleteComment&id=<?= $comment->getId() ?>" method="post">

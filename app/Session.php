@@ -47,10 +47,7 @@ class Session
 
     public static function isAdmin()
     {
-        if (self::getUser() && self::getUser()->hasRole("ROLE_ADMIN")) {
-            return true;
-        }
-        return false;
+        return self::getUser() && self::getUser()->hasRole("ROLE_ADMIN");
     }
 
     public static function getToken()
@@ -58,15 +55,14 @@ class Session
         return (isset($_SESSION['_token'])) ? $_SESSION['_token'] : false;
     }
 
-    public static function checkToken()
+    public static function checkToken($token): bool
     {
-        $token = filter_input(INPUT_POST, '_token', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $result = false;
         $_token = self::getToken();
 
         if ($_token) {
-            $result = ($token == $_token);
+            $result = ($token === $_token);
             if (!$result) {
                 self::setUser(null);
 
