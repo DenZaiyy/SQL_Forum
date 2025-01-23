@@ -1,36 +1,48 @@
-version: '3.1' #docker version
-
 services:
   www:
     build: ./
+    container_name: forum-app
+    depends_on:
+      - db
     volumes:
       - "./:/var/www/html" #sync project dir with container web dir
     ports:
-      - 80:80
+      - "80:80"
       # - 443:443 #for future ssl traffic
+    networks:
+      - forum-network
   db:
-    image: mysql:8.0.30
-    # container_name: db
-    restart: on-failure
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql:latest
+    container_name: forum-db
+    env_file: .env
+    ports:
+      - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=test123
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - forum-network
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: arm64v8/phpmyadmin
+    container_name: forum-phpmyadmin
     restart: on-failure
     ports:
-      - 8888:80
+      - "8888:80"
     environment:
       - PMA_HOST=db
-      - PMA_PORT=3306
-      - PMA_ARBITRARY=1
-      
-# networks:
-#   default:
-#       name: db-host
+      - PMA_ARBITRARY=0
+      - PMA_ALLOW_NO_PASSWORD=0
+    networks:
+      - forum-network
+
+networks:
+  forum-network:
+    driver: bridge
 
 volumes:
   dbdata:
