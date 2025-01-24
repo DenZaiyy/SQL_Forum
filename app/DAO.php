@@ -4,7 +4,7 @@ namespace App;
 
 /**
  * Classe d'accès aux données de la BDD, abstraite
- * 
+ *
  * @property static $bdd l'instance de PDO que la classe stockera lorsque connect() sera appelé
  *
  * @method static connect() connexion à la BDD
@@ -14,10 +14,10 @@ namespace App;
 abstract class DAO
 {
 
-    private static $host   = 'mysql:host=db;port=3306';
-    private static $dbname = 'forum';
-    private static $dbuser = 'root';
-    private static $dbpass = 'test123';
+    private static $host   = 'mysql:host=localhost;port=3306';
+    private static $dbname = "database";
+    private static $dbuser = 'user';
+    private static $dbpass = 'pass';
 
     private static $bdd;
 
@@ -44,7 +44,7 @@ abstract class DAO
         try {
             $stmt = self::$bdd->prepare($sql);
             $stmt->execute();
-            //on renvoie l'id de l'enregistrement qui vient d'être ajouté en base, 
+            //on renvoie l'id de l'enregistrement qui vient d'être ajouté en base,
             //pour s'en servir aussitôt dans le controleur
             return self::$bdd->lastInsertId();
         } catch (\Exception $e) {
@@ -81,11 +81,11 @@ abstract class DAO
 
     /**
      * Cette méthode permet les requêtes de type SELECT
-     * 
+     *
      * @param string $sql la chaine de caractère contenant la requête elle-même
      * @param mixed $params=null les paramètres de la requête
      * @param bool $multiple=true vrai si le résultat est composé de plusieurs enregistrements (défaut), false si un seul résultat doit être récupéré
-     * 
+     *
      * @return array|null les enregistrements en FETCH_ASSOC ou null si aucun résultat
      */
     public static function select($sql, $params = null, bool $multiple = true): ?array
