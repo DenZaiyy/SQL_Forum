@@ -107,4 +107,16 @@ class TopicManager extends Manager
             ]
         );
     }
+
+    public function countComments($id)
+    {
+        $sql = "SELECT COUNT(*)
+                FROM `message` m
+                WHERE m.topic_id = :id";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id], true),
+            $this->className
+        );
+    }
 }
